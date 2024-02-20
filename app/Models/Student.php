@@ -19,9 +19,9 @@ class Student extends Model
         'birthdate'
     ];
 
-    public function classStudent(): BelongsTo
+    public function classtudent(): BelongsTo
     {
-        return $this->belongsTo(ClassStudent::class);
+        return $this->belongsTo(ClassStudent::class, 'student_id');
     }
 
     public function attendance(): BelongsTo
