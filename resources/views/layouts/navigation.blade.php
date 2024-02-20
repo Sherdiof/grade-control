@@ -1,15 +1,16 @@
 <nav class="border-b shadow-gray-500 fixed w-full z-20 top-0 start-0">
             <!-- Sidebar -->
-            <div class="absolute bg-indigo-500 text-white w-56 min-h-screen overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300"
+            <div class="absolute bg-indigo-500 text-white w-72 min-h-screen overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300"
                  id="sidebar">
                 <!-- Your Sidebar Content -->
                 <div class="p-4">
-                    <h1 class="text-2xl font-semibold"> {{ __("Menu") }} </h1>
-                    <ul class="mt-4">
+
+                    <h1 class="text-4xl font-semibold mt-4"> {{ __("Menu") }} </h1>
+                    <ul class="mt-8 text-xl">
                         <li class="mb-2"><a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Dashboard") }}</a></li>
                         <li class="mb-2"><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Users") }}</a></li>
                         <li class="mb-2"><a href="#" class="block hover:text-indigo-200 hover:border-b hover:border-indigo-200">{{ __("Services") }}</a></li>
-                        <li class="mb-2"><a href="#" class="block hover:text-indigo-200 hover:border-b hover:border-indigo-200">{{ __("Contact") }}</a></li>
+                        <li class="mb-2"><a href="{{ route('students.index') }}" class="{{ request()->routeIs('students.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Students") }}</a></li>
                     </ul>
                 </div>
             </div>
