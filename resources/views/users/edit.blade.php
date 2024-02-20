@@ -23,31 +23,46 @@
                                     <div class="p-2 w-1/2">
                                         <div class="relative">
                                             <label for="name" class="leading-7 text-sm text-gray-600">{{ __('Name') }}</label>
-                                            <input type="text" id="name" name="name" value="{{ $user->name }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            @error('name')
+                                            <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="p-2 w-1/2">
                                         <div class="relative">
                                             <label for="phone" class="leading-7 text-sm text-gray-600">{{ __('Phone') }}</label>
-                                            <input type="text" id="phone" name="phone" value="{{ $user->phone }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <input type="text" id="phone" name="phone" value="{{ old('phone', $user->phone) }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            @error('phone')
+                                            <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="p-2 w-1/2">
                                         <div class="relative">
                                             <label for="email" class="leading-7 text-sm text-gray-600">{{ __('Email') }}</label>
-                                            <input type="email" id="email" name="email" value="{{ $user->email }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            @error('email')
+                                            <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="p-2 w-1/2">
                                         <div class="relative">
                                             <label for="password" class="leading-7 text-sm text-gray-600">{{ __('Password') }}</label>
                                             <input type="password" id="password" name="password" placeholder="*******" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            @error('password')
+                                            <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="p-2 w-full">
                                         <div class="relative">
                                             <label for="area" class="leading-7 text-sm text-gray-600">{{ __('Work area') }}</label>
-                                            <input type="text" id="area" name="area" value="{{ $user->area }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <input type="text" id="area" name="area" value="{{ old('area', $user->area) }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            @error('area')
+                                            <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -58,7 +73,8 @@
                                                 <option selected>{{ $user->role }}</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Docente">Docente</option>
-                                            </select>                                        </div>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="p-2 w-full">
@@ -75,8 +91,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </form>
                     </div>
-                    </form>
                 </section>
 
             </div>

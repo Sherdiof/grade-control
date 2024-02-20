@@ -78,11 +78,6 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                // Add any customization options here
-            });
-        });
 
         @if(session('eliminar') == 'ok')
             Swal.fire({
@@ -122,11 +117,19 @@
             padding: 0.5rem 1rem; /* Ajusta segÃºn sea necesario */
             border-radius: 9999px; /* Hace que los botones sean redondos */
             margin-right: 0.5rem; /* Espaciado entre los botones */
+            margin-top: 1.5rem;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover,
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background-color: #6c4ca9; /* Cambia a tu color morado oscuro */
         }
+
+        /* Add your custom styles here */
+        .dataTables_info {
+            margin-top: 1.5rem /* Ajusta el tamaño de fuente según sea necesario */
+        }
+
     </style>
+
 </x-app-layout>

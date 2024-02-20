@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -31,26 +33,11 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required'],
-            'phone' => ['max:11'],
-            'area' => ['max:255'],
-            'role' => ['required', 'string'],
+        $validate = $request->validated();
 
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'area' => $request->area,
-            'role' => $request->role,
-        ]);
+        User::create($validate);
 
         return redirect()->route('users.index')->with('status', 'Se ha creado el registro correctamente!');
 
@@ -75,8 +62,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-        public function update(Request $request, User $user)
+        public function update(UpdateUserRequest $request, User $user)
     {
+        $request->validated();
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
@@ -86,7 +75,6 @@ class UserController extends Controller
         if (isset($request->password)){
             $user->password = $request->password;
         }
-
 
         $user->update();
         return redirect()->route('users.index')->with('status', 'Se ha actualizado el registro correctamente!');
