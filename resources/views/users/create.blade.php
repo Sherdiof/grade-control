@@ -88,12 +88,11 @@
                                             </svg>
                                             <span>Go back</span>
                                         </a>
-
                                     </div>
                                 </div>
                             </div>
+                        </form>
                     </div>
-                    </form>
                 </section>
 
             </div>

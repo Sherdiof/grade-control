@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Students') }}
+            {{ __('Grades') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 @if(session('status'))
                     <div class="flex justify-center px-4 p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
@@ -15,7 +15,7 @@
                 @endif
 
                 <div class="flex justify-end pb-10">
-                    <a href="{{ route('students.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <a href="{{ route('grades.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                         {{ __('Add') }}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 ml-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -23,34 +23,22 @@
                     </a>
                 </div>
 
-                    <table id="example" class="display" style="width:100%">
-                        <thead>
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Created_at') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($grades as $grade)
                         <tr>
-                            <th>Nombre</th>
-                            <th>Edad</th>
-                            <th>Encargado</th>
-                            <th>Telefono</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($students as $student)
-                        <tr>
-                            <td>{{ $student->name }}</td>
-                            <td>{{ $student->age }}</td>
-                            <td>{{ $student->tutor }}</td>
-                            <td>{{ $student->phone }}</td>
+                            <td>{{ $grade->name }}</td>
+                            <td>{{ $grade->created_at->diffForHumans() }}</td>
                             <td>
                                 <div class="flex flex-row">
-                                    <a href="{{ route('students.show', $student) }}">
-                                        <button class="relative align-middle select-none px-2 font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
-                                            <svg class="w-6 h-6 text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4 6-9 6s-9-4.8-9-6c0-1.2 4-6 9-6s9 4.8 9 6Z"/>
-                                                <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                            </svg>
-                                        </button>
-                                    </a>
-                                    <a href="{{ route('students.edit', $student) }}">
+                                    <a href="{{ route('grades.edit', $grade) }}">
                                         <button class="relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
                                             <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
                                               <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
@@ -61,7 +49,7 @@
                                             </span>
                                         </button>
                                     </a>
-                                    <form method="POST" action="{{route('students.destroy', $student)}}" class="formulario-eliminar">
+                                    <form method="POST" action="{{route('grades.destroy', $grade)}}" class="formulario-eliminar">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="relative align-middle px-2 select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30">
@@ -73,10 +61,9 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -87,16 +74,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
-
-
     <script>
 
         @if(session('eliminar') == 'ok')
-            Swal.fire({
-                title: "¡Eliminado!",
-                text: "El usuario se eliminó con éxito.",
-                icon: "success"
-            });
+        Swal.fire({
+            title: "¡Eliminado!",
+            text: "El usuario se eliminó con éxito.",
+            icon: "success"
+        });
         @endif
 
 
@@ -141,7 +126,6 @@
         .dataTables_info {
             margin-top: 1.5rem /* Ajusta el tamaño de fuente según sea necesario */
         }
-
     </style>
 
 </x-app-layout>
