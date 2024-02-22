@@ -3,6 +3,7 @@
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
@@ -37,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/grades', GradeController::class);
     Route::resource('/courses', CourseController::class);
     Route::resource('/classes', ClassController::class);
-
+    Route::resource('/periods', PeriodController::class);
 
 });
 
