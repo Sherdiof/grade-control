@@ -11,6 +11,7 @@
                         <li class="mb-2"><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Users") }}</a></li>
                         <li class="mb-2"><a href="{{ route('courses.index') }}" class="{{ request()->routeIs('courses.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Courses") }}</a></li>
                         <li class="mb-2"><a href="{{ route('students.index') }}" class="{{ request()->routeIs('students.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Students") }}</a></li>
+                        <li class="mb-2"><a href="{{ route('classes.index') }}" class="{{ request()->routeIs('classes.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Classes") }}</a></li>
                     </ul>
                 </div>
             </div>

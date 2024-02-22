@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Grade extends Model
 {
@@ -14,9 +15,9 @@ class Grade extends Model
         'name'
     ];
 
-    public function class(): BelongsTo
+    public function class(): HasMany
     {
-        return $this->belongsTo(Classes::class);
+        return $this->hasMany(Classes::class);
     }
 
     public function assigment(): BelongsTo
