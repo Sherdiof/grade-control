@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Classes;
 use App\Models\Grade;
+use App\Rules\DoesntExistsClass;
 use Illuminate\Http\Request;
+use Psy\Util\Str;
 
 class ClassController extends Controller
 {
@@ -32,17 +34,14 @@ class ClassController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'name' => 'required|min:1|max:5',
+            'name' => ['required', 'max:5', new DoesntExistsClass($request->input('grade_id'))],
             'grade_id' => 'required'
         ]);
-        $result = Classes::where('name', $validate['name'])->where('grade_id', $validate['grade_id'])->first();
-        if ($result == null) {
-            $validate['name'] = strtoupper($validate['name']);
+
             Classes::create($validate);
-            return redirect()->route('classes.index')->with('status', 'Se ha creado el registro correctamente!');
-        } else {
-            return back()->with('status', 'El grado ya ha sido asignado a una sección existente.');
-        }
+
+        return redirect()->route('classes.index')->with('status', 'Se ha creado el registro correctamente!');
+
     }
 
     /**
@@ -60,19 +59,14 @@ class ClassController extends Controller
     public function update(Request $request, Classes $class)
     {
         $request->validate([
-            'name' => 'required|min:1|max:5',
+            'name' => ['required', 'max:5', new DoesntExistsClass($request->input('grade_id'))],
             'grade_id' => 'required'
         ]);
-        $result = Classes::where('name', $request->name)->where('grade_id', $request->grade_id)->first();
 
-        if ($result == null) {
-            $class->name = strtoupper($request->name);
+            $class->name = $request->name;
             $class->grade_id = $request->grade_id;
             $class->update();
             return redirect()->route('classes.index')->with('status', 'Se ha actualizado el registro correctamente!');
-        } else {
-            return back()->with('status', 'El grado ya ha sido asignado a una sección existente.');
-        }
     }
 
     /**

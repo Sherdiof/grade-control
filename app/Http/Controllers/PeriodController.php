@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Period;
+use App\Rules\DoesntExistsPeriod;
 use Illuminate\Http\Request;
 
 class PeriodController extends Controller
@@ -31,7 +32,7 @@ class PeriodController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'min:2', 'max:50'],
+            'name' => ['required', 'min:2', 'max:50', new DoesntExistsPeriod($request->input('year'))],
             'year' => ['required', 'min:4', 'max:50'],
         ]);
 
@@ -65,8 +66,8 @@ class PeriodController extends Controller
     public function update(Request $request, Period $period)
     {
         $this->validate($request, [
-            'name' => ['min:2', 'max:50'],
-            'year' => ['min:4', 'max:50'],
+            'name' => ['required','min:2', 'max:50', new DoesntExistsPeriod($request->input('year'))],
+            'year' => ['required', 'min:4', 'max:50'],
         ]);
         $period->name = $request->name;
         $period->year = $request->year;

@@ -24,4 +24,14 @@
         @endforeach
     </select>
     <x-input-error :messages="$errors->get('grade_id')" class="mt-2" />
+
+{{--    Convertir valores a mayúsculas--}}
+    <script>
+        const inputField = document.getElementById("name");
+
+        inputField.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            inputField.value = inputField.value.toUpperCase();
+        });
+    </script>
 </div>
