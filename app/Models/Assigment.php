@@ -27,8 +27,8 @@ class Assigment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function grades(): HasMany
+    public function grade(): BelongsTo
     {
-        return $this->hasMany(Grade::class);
+        return $this->belongsTo(Grade::class);
     }
 }

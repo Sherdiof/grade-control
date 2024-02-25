@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeachingAssignmentsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/courses', CourseController::class);
     Route::resource('/classes', ClassController::class);
     Route::resource('/periods', PeriodController::class);
+    Route::resource('/assignments', TeachingAssignmentsController::class);
 
 });
 

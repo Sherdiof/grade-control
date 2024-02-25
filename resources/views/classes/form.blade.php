@@ -2,7 +2,6 @@
     $edit = isset($class);
 @endphp
 
-
 <div class="mb-4">
     <x-input-label for="name" :value="__('Name:')" />
     <x-text-input id="name" name="name" type="text" value="{{ $edit ? old('name', $class->name) : old('name') }}" class="mt-1 block w-full" />
