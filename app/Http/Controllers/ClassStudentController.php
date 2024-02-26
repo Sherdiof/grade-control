@@ -58,7 +58,10 @@ class ClassStudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $classStudents = ClassStudent::where('class_id', $id)->join('students', 'class_students.student_id', '=', 'students.id')
+            ->select('students.name as student', 'class_students.id')->get();
+        $class = Classes::find($id);
+        return view('class-students.show', compact('classStudents', 'class'));
     }
 
     /**
