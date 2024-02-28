@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassStudentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassController;
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/assignments', TeachingAssignmentsController::class);
     Route::resource('/class-students', ClassStudentController::class);
     Route::post('/class-students/add-more-students', [ClassStudentController::class, 'addMoreStudents'])->name('class-students.addMoreStudents');
+    Route::resource('/attendance', AttendanceController::class);
 
 });
 
