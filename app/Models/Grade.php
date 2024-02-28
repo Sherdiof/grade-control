@@ -20,8 +20,8 @@ class Grade extends Model
         return $this->hasMany(Classes::class);
     }
 
-    public function assigment(): BelongsTo
+    public function assigments(): HasMany
     {
-        return $this->belongsTo(Assigment::class);
+        return $this->hasMany(Assigment::class);
     }
 }
