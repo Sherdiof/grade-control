@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Assigment;
 use App\Models\Course;
 use App\Models\Homeworks;
 use App\Models\Period;
@@ -25,7 +26,7 @@ class HomeworksFactory extends Factory
             'description' => fake()->sentence(10),
             'value' => 10,
             'period_id' => Period::all()->random()->id,
-            'course_id' => Course::all()->random()->id,
+            'assigment_id' => Assigment::all()->random()->id,
         ];
     }
 }
