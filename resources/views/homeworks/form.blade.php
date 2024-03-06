@@ -71,7 +71,7 @@
                         <option value="{{ $course->id }}">{{ $course->name }}</option>
                     @endif
                 @else
-                    <option value="{{ $course->id }}">{{ $course->name }}</option>
+                    <option value="{{ $course->id }}">{{ $course->course->name }}</option>
                 @endif
             @endforeach
         </select>
