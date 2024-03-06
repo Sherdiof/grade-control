@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/class-students', ClassStudentController::class);
     Route::post('/class-students/add-more-students', [ClassStudentController::class, 'addMoreStudents'])->name('class-students.addMoreStudents');
     Route::resource('/attendance', AttendanceController::class);
+    Route::get('/attendance/{class_id}/register', [AttendanceController::class, 'register'])->name('attendance.register');
+    Route::post('/attendance/{class_id}/register', [AttendanceController::class, 'addRegister'])->name('attendance.addRegister');
 
 });
 
