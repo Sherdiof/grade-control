@@ -15,12 +15,12 @@ class Homeworks extends Model
         'description',
         'value',
         'period_id',
-        'course_id',
+        'assigment_id',
     ];
 
-    public function course(): BelongsTo
+    public function assigment(): BelongsTo
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Assigment::class);
     }
 
     public function period(): BelongsTo

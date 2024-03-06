@@ -5,6 +5,8 @@ use App\Http\Controllers\ClassStudentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\HomeworkController;
+use App\Http\Controllers\HomeworkGradeController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -33,6 +35,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/homework-grades', [HomeworkGradeController::class, 'groupHomeworksGrades'])->name('homeworks.groupHomeworksGrades');
+    Route::get('/homework-grades/{grade_id}', [HomeworkGradeController::class, 'viewHomeworks'])->name('homeworks.viewHomeworksGrades');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -45,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/assignments', TeachingAssignmentsController::class);
     Route::resource('/class-students', ClassStudentController::class);
     Route::post('/class-students/add-more-students', [ClassStudentController::class, 'addMoreStudents'])->name('class-students.addMoreStudents');
+    Route::resource('/homeworks', HomeworkController::class);
     Route::resource('/attendance', AttendanceController::class);
     Route::get('/attendance/{class_id}/register', [AttendanceController::class, 'register'])->name('attendance.register');
     Route::post('/attendance/{class_id}/register', [AttendanceController::class, 'addRegister'])->name('attendance.addRegister');
