@@ -18,9 +18,9 @@ class Attendance extends Model
         'date'
     ];
 
-    public function students(): HasMany
+    public function student(): BelongsTo
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function class(): BelongsTo

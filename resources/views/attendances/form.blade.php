@@ -23,6 +23,7 @@
                         </select>
                         <input type="hidden" value="{{ $class_id }}" name="class_id[]">
                         <input type="hidden" value="{{ $classStudent->student_id }}" name="student_id[]">
+                        <input type="hidden" value="{{ $date }}" name="date">
                     </td>
                 </tr>
             @endforeach

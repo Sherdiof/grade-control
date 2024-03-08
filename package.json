@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@preline/dropdown": "^2.0.2",
+        "cloudflared": "^0.5.1",
         "sweetalert2": "^11.10.5"
     }
 }

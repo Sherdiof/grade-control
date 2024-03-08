@@ -31,11 +31,11 @@ class AttendanceController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function register(int $class_id)
+    public function register(int $class_id, string $date)
     {
         $classStudents = ClassStudent::where('class_id', $class_id)->join('students', 'class_students.student_id', '=', 'students.id')
             ->select('students.name as student', 'class_students.id', 'students.id as student_id')->get();
-        return view('attendances.register', compact('classStudents', 'class_id'));
+        return view('attendances.register', compact('classStudents', 'class_id', 'date'));
     }
 
     public function addRegister(Request $request)
@@ -44,24 +44,22 @@ class AttendanceController extends Controller
         $class = $request->class_id;
         $student = $request->student_id;
         $c = count($request['student_id']);
-        for ( $i = 0; $i<$c; $i++){
+        for ($i = 0; $i < $c; $i++) {
             Attendance::create([
                 'class_id' => $class[$i],
                 'student_id' => $student[$i],
                 'attendance_class' => $assist[$i],
-                'date' => Carbon::parse()->timezone('CST')
+                'date' => $request->date
             ]);
         }
 
-        return redirect()->route('attendance.index');
+        return redirect()->route('attendance.index')->with('status', 'Se ha registrado la asistencia correctamente!');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function selectDatetoEdit(int $class_id)
     {
-        //
+        $class = Classes::find($class_id);
+        return view('attendances.select-date', compact('class', 'class_id'));
     }
 
     /**
@@ -75,24 +73,31 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $class_id, Request $request)
     {
-        //
+        $date = Carbon::parse($request->date)->format('Y-m-d');
+        $attendances = Attendance::where('class_id', $class_id)->where('date', $date)->get();
+        if (count($attendances) != 0) {
+            return view('attendances.edit', compact('attendances', 'date', 'class_id'));
+        } else {
+            return $this->register($class_id, $date);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $class_id)
     {
-        //
-    }
+        $assist = $request->assist;
+        $attendance = $request->attendance_id;
+        $c = count($request['attendance_id']);
+        for ($i = 0; $i < $c; $i++) {
+            $data = Attendance::find($attendance[$i]);
+            $data->attendance_class = $assist[$i];
+            $data->save();
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('attendance.index')->with('status', 'Se han actualiado los registros correctamente!');
     }
 }
