@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\addHomeworkScoreController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassStudentController;
 use App\Http\Controllers\GradeController;
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/attendance', AttendanceController::class);
     Route::get('/attendance/{class_id}/register', [AttendanceController::class, 'register'])->name('attendance.register');
     Route::post('/attendance/{class_id}/register', [AttendanceController::class, 'addRegister'])->name('attendance.addRegister');
+    Route::resource('/add-homeworks-score', addHomeworkScoreController::class);
 
 });
 

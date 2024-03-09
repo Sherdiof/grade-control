@@ -7,7 +7,6 @@ use App\Models\Course;
 use App\Models\Homeworks;
 use App\Models\Period;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class HomeworkController extends Controller
 {

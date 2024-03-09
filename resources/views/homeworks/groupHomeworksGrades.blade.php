@@ -71,7 +71,6 @@
                                         </svg>
                                     </div>
                                     <h1 class="text-darken mb-5 text-xl font-medium lg:px-14">{{ $homeworkGrade->grades }}</h1>
-                                    <p class="px-4 text-gray-500">Periodo: {{ $homeworkGrade->assigment_id }}</p>
                                     <p class="px-4 text-gray-500">Curso: {{ $homeworkGrade->courses }}</p>
                                     <p class="px-4 text-gray-500">Cantidad de tareas: {{ $homeworkGrade->homeworks }}</p>
                                     <a class="px-4 text-blue-500 cursor-pointer" href="{{ route('homeworks.viewHomeworksGrades', $homeworkGrade->assigment_id) }}"> Ver más</a>

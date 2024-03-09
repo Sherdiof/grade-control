@@ -18,6 +18,7 @@
                         <li class="mb-2"><a href="{{ route('assignments.index') }}" class="{{ request()->routeIs('assignments.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Assignments") }}</a></li>
 {{--                        <li class="mb-2"><a href="{{ route('attendance.index') }}" class="{{ request()->routeIs('assignments.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Attendance") }}</a></li>--}}
                         <li class="mb-2"><a href="{{ route('homeworks.index') }}" class="{{ request()->routeIs('homeworks.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Homeworks") }}</a></li>
+                        <li class="mb-2"><a href="{{ route('add-homeworks-score.index') }}" class="{{ request()->routeIs('add-homeworks-score.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Add Homeworks Score") }}</a></li>
                     </ul>
                 </div>
             </div>
