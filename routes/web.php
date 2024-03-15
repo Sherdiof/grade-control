@@ -55,7 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/attendance', AttendanceController::class);
     Route::get('/attendance/{class_id}/register', [AttendanceController::class, 'register'])->name('attendance.register');
     Route::post('/attendance/{class_id}/register', [AttendanceController::class, 'addRegister'])->name('attendance.addRegister');
-    Route::resource('/add-homeworks-score', addHomeworkScoreController::class);
+    Route::resource('/add-homeworks-score', addHomeworkScoreController::class)->except('store');
+    Route::get('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'homeworkRegister'])->name('homework.register');
+    Route::post('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'store'])->name('add-homeworks-score.store');
 
 });
 

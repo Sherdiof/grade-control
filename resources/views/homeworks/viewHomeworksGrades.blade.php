@@ -9,6 +9,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
+                @if(session('status'))
+                    <div class="flex justify-center px-4 p-4 mb-4 mt-5 text-sm text-green-800 rounded-lg bg-green-50"
+                         role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 <div
                     class="relative w-full bg-white px-6 pt-10 pb-8 mt-8  sm:mx-auto sm:max-w-2xl sm:rounded-lg sm:px-10">
                     <div class="mx-auto px-5">
@@ -26,22 +33,26 @@
                                     <details class="group">
                                         <summary
                                             class="flex cursor-pointer list-none items-center justify-between font-medium">
-                                            <span> {{ $homework->name }}</span>
+                                            <span>
+                                            <a href="{{ route('homework.register',['homework_id' => $homework->id, 'assigment_id' => $homework->assigment_id]) }}" class="border border-indigo-500 text-indigo-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-indigo-600 focus:outline-none focus:shadow-outline">
+                                                Calificar
+                                            </a>
+                                             {{ $homework->name }}</span>
                                             <span class="transition group-open:rotate-180">
-                                <svg fill="none" height="24" shape-rendering="geometricPrecision"
-                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="1.5" viewBox="0 0 24 24" width="24">
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </span>
+                                                <svg fill="none" height="24" shape-rendering="geometricPrecision"
+                                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                     stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                                                    <path d="M6 9l6 6 6-6"></path>
+                                                </svg>
+                                            </span>
                                         </summary>
-                                        <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
+                                        <p class="group-open:animate-fadeIn ml-5 mt-8 text-neutral-600">
                                             Value: {{ $homework->value }}
                                         </p>
-                                        <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
+                                        <p class="group-open:animate-fadeIn ml-5 mt-3 text-neutral-600">
                                             Descripción: {{ $homework->description }}
                                         </p>
-                                        <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
+                                        <p class="group-open:animate-fadeIn ml-5 mt-3 text-neutral-600">
                                             Periodo: {{ $homework->period->name }}
                                         </p>
                                     </details>
