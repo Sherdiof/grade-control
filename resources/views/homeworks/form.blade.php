@@ -68,7 +68,7 @@
                     @if($course->id == $homework->assigment->course->id)
                         <option selected value="{{ $homework->assigment_id }}">{{ $homework->assigment->course->name }}</option>
                     @else
-                        <option value="{{ $course->id }}">{{ $course->name }}</option>
+                        <option value="{{ $course->id }}">{{ $course->course->name }}</option>
                     @endif
                 @else
                     <option value="{{ $course->id }}">{{ $course->course->name }}</option>

@@ -26,7 +26,7 @@ class TeachingAssignmentsController extends Controller
     {
         $grades = Grade::all();
         $courses = Course::all();
-        $users = User::all();
+        $users = User::where('role', 'Docente')->get();
         return view('assignments.create', compact('grades', 'users', 'courses'));
     }
 
@@ -77,7 +77,7 @@ class TeachingAssignmentsController extends Controller
     {
         $grades = Grade::all();
         $courses = Course::all();
-        $users = User::all();
+        $users = User::where('role', 'Docente')->get();
         return view('assignments.edit', compact('grades', 'users', 'courses', 'assignment'));
     }
 
