@@ -9,6 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
+                @if(session('status'))
+                    <div class="flex justify-center px-4 items-center py-2 mr-2 text-sm text-green-800 rounded-lg bg-green-50 w-full" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
                 <!-- component -->
                 <div class="flex flex-wrap -mx-3 mb-5 mt-10">
@@ -48,7 +53,7 @@
                                 @foreach($homeworkStudents as $homeworkStudent)
                                     <tr class="bg-white border-b hover:bg-gray-50">
                                         <td class="px-6 py-4 font-semibold text-gray-900">
-                                            {{$homeworkStudent->estudiante}}
+                                            {{$homeworkStudent->estudiante}} - {{ __('SECTION') }} {{ $homeworkStudent->seccion }}
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center">
@@ -59,6 +64,7 @@
 
                                                     <input type="number" id="first_product"
                                                            name="score[]"
+                                                           step="any"
                                                            class="bg-gray-50 w-16 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1"
                                                            required/>
                                                 </div>
@@ -91,5 +97,3 @@
         </div>
     </div>
 </x-app-layout>
-
-
