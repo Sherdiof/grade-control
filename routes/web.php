@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\HomeworkGradeController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\scoreReportsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeachingAssignmentsController;
 use App\Http\Controllers\UserController;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'store'])->name('add-homeworks-score.store');
     Route::patch('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'update'])->name('add-homeworks-score.update');
     Route::get('/add-homeworks-score/{homework_id}/{assigment_id}/edit', [addHomeworkScoreController::class, 'edit'])->name('add-homeworks-score.edit');
+    Route::get('/score-reports', [scoreReportsController::class, 'index'])->name('scoreReports.index');
 
 });
 
