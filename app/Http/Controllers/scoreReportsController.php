@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use Illuminate\Http\Request;
 
 class scoreReportsController extends Controller
@@ -11,7 +12,11 @@ class scoreReportsController extends Controller
      */
     public function index()
     {
-        return view('score-reports.index');
+        $classes = Classes::select('classes.id as class_id', 'classes.name as class', 'g.name as grade')
+            ->join('grades as g', 'classes.grade_id', '=', 'g.id')
+            ->get();
+
+        return view('score-reports.index', compact('classes'));
     }
 
     /**
