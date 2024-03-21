@@ -17,9 +17,9 @@ class scoreReportsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function scoreGrade()
     {
-        //
+        return view('score-reports.score-grade');
     }
 
     /**
