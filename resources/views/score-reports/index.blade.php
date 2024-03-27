@@ -11,7 +11,7 @@
 
                 <div class="m-6">
                     <div class="flex flex-wrap -mx-6">
-                        @foreach($classes as $class)
+                        @foreach($grades as $grade)
                         <div class="w-full px-6 my-4 sm:w-1/2 xl:w-1/3">
                             <div class="flex h-full items-center px-5 py-6 shadow-sm shadow-violet-600 rounded-md bg-violet-200">
                                 <div class="p-3 rounded-full bg-indigo-600 bg-opacity-75">
@@ -21,8 +21,8 @@
                                 </div>
 
                                 <div class="mx-5">
-                                    <h4 class="text-xl font-semibold text-gray-700">{{ $class->grade }} - {{ $class->class }}</h4>
-                                    <a href="{{ $class->class_id }}" class="text-gray-500">Ver calificaciones</a>
+                                    <h4 class="text-xl font-semibold text-gray-700">{{ $grade->name }}</h4>
+                                    <a href="{{ route('scoreReports.period', $grade->id) }}" class="text-gray-500">Ver calificaciones</a>
                                 </div>
                             </div>
                         </div>

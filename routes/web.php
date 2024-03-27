@@ -65,7 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'update'])->name('add-homeworks-score.update');
     Route::get('/add-homeworks-score/{homework_id}/{assigment_id}/edit', [addHomeworkScoreController::class, 'edit'])->name('add-homeworks-score.edit');
     Route::get('/score-reports', [scoreReportsController::class, 'index'])->name('scoreReports.index');
-    Route::get('/score-reports/score-grade', [scoreReportsController::class, 'scoreGrade'])->name('scoreReports.scoreGrade');
+    Route::get('/score-reports/{grade}/score-grade', [scoreReportsController::class, 'period'])->name('scoreReports.period');
+    Route::get('/score-reports/{grade}/score-grade/{period}/period', [scoreReportsController::class, 'scoreGrade'])->name('scoreReports.scoreGrade');
 
 });
 

@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StudentHomeworks extends Model
 {
@@ -21,8 +23,8 @@ class StudentHomeworks extends Model
         return $this->hasMany(Student::class);
     }
 
-    public function homeworks(): HasMany
+    public function homework(): BelongsTo
     {
-        return $this->hasMany(Homeworks::class);
+        return $this->belongsTo(Homeworks::class, 'homeworks_id', 'id');
     }
 }

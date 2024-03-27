@@ -22,7 +22,7 @@ class Student extends Model
 
     public function classtudent(): BelongsTo
     {
-        return $this->belongsTo(ClassStudent::class, 'student_id');
+        return $this->belongsTo(ClassStudent::class, 'id', 'student_id');
     }
 
     public function attendances(): HasMany
@@ -30,8 +30,8 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function studentHomework(): BelongsTo
+    public function studentHomework(): HasMany
     {
-        return $this->belongsTo(StudentHomeworks::class);
+        return $this->hasMany(StudentHomeworks::class);
     }
 }
