@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 mx-72">
                     <h2 class="text-2xl font-semibold mb-6 mx-auto text-center">{{ __('Edit Attendance of the Day') }} {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</h2>
 
-                    <form action="{{ route('attendance.update', $class_id) }}" method="POST">
+                    <form action="{{ route('attendance.update', ['grade' => $grade, 'class' => $class]) }}" method="POST">
                         @csrf
                         @method('PATCH')
 

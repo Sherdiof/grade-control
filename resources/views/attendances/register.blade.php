@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 mx-72">
                     <h2 class="text-2xl font-semibold mx-auto text-center">{{ __('Register Attendance of the Day') }} {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</h2>
                     <p class="text-md font-normal text-gray-600 mb-6 mx-auto text-center">No se ha registrado una asistencia de esta fecha.</p>
-                    <form action="{{ route('attendance.addRegister', $class_id) }}" method="POST">
+                    <form action="{{ route('attendance.addRegister', ['grade' => $grade, 'class' => $class ]) }}" method="POST">
                         @csrf
 
                         @include('attendances.form')

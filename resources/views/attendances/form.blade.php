@@ -21,7 +21,7 @@
                             <option value="Didn't Assist">Didn't Assist</option>
                             <option value="Assist">Assist</option>
                         </select>
-                        <input type="hidden" value="{{ $class_id }}" name="class_id[]">
+                        <input type="hidden" value="{{ $class->id }}" name="class_id[]">
                         <input type="hidden" value="{{ $classStudent->student_id }}" name="student_id[]">
                         <input type="hidden" value="{{ $date }}" name="date">
                     </td>

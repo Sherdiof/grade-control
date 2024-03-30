@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 mx-72">
                     <h2 class="text-2xl font-semibold uppercase mb-6 mx-auto text-center">{{ __('SECTION') }} {{ $class->name }} {{ $class->grade->name }}</h2>
                     <h2 class="text-xl font-semibold mb-6 mx-auto text-center">{{ __('Select a date to edit or create') }}</h2>
-                    <form action="{{ route('attendance.edit', $class_id) }}" method="get">
+                    <form action="{{ route('attendance.edit', ['grade' => $grade, 'class' => $class]) }}" method="get">
                         @csrf
 
                         <div class="relative max-w-sm mx-auto">
