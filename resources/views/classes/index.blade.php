@@ -26,16 +26,16 @@
                 <table id="example" class="table-auto w-full">
                     <thead>
                         <tr>
-                            <th class="px-4 py-2">{{ __('Name') }}</th>
                             <th class="px-4 py-2">{{ __('Grade') }}</th>
+                            <th class="px-4 py-2">{{ __('Section') }}</th>
                             <th class="px-4 py-2">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($classes as $class)
                         <tr>
-                            <td class="border px-4 py-2">{{ $class->name }}</td>
                             <td class="border px-4 py-2">{{ $class->grade->name }}</td>
+                            <td class="border px-4 py-2">{{ $class->name }}</td>
                             <td class="border px-4 py-2">
                                 <div class="flex flex-row">
                                     <a href="{{ route('classes.edit', $class) }}">

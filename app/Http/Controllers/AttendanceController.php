@@ -80,6 +80,11 @@ class AttendanceController extends Controller
 
     public function show(Classes $class, Request $request)
     {
+        $request->validate([
+            'start' => 'required',
+            'end' => 'required'
+        ]);
+
         $start = Carbon::parse($request->start)->format('Y-m-d');
         $end = Carbon::parse($request->end)->format('Y-m-d');
         $students = Student::with(['attendances' => function ($query) use ($class, $start, $end) {

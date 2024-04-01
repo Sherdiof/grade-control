@@ -34,6 +34,24 @@
                             </div>
                         </div>
 
+{{--                        ERRORES EN VISTA--}}
+                        @if ($errors->any())
+                            <div class="mx-auto w-full max-w-[550px] items-center p-4 mb-4 mt-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                                @foreach ($errors->all() as $error)
+                                    <div class="flex items-center my-1">
+                                        <svg class=" flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                        </svg>
+                                        <span class="sr-only">Info</span>
+                                        <div>
+                                            <span class="font-medium">Alerta!</span> {{ $error }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+{{--                        FIN DE ERRORES--}}
+
                         <div class="p-2 mt-4 w-full">
                             <button type="submit" class="flex mx-auto text-white bg-indigo-500 border-0 py-1 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">{{ __('Go') }}</button>
                         </div>

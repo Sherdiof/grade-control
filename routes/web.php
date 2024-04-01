@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeworkGradeController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\scoreReportsController;
+use App\Http\Controllers\ScoreReportStudentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeachingAssignmentsController;
 use App\Http\Controllers\UserController;
@@ -73,6 +74,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/score-reports', [scoreReportsController::class, 'index'])->name('scoreReports.index');
     Route::get('/score-reports/{grade}/score-grade', [scoreReportsController::class, 'period'])->name('scoreReports.period');
     Route::get('/score-reports/{grade}/score-grade/{period}/period', [scoreReportsController::class, 'scoreGrade'])->name('scoreReports.scoreGrade');
+
+    Route::get('/score-reports-students', [ScoreReportStudentController::class, 'index'])->name('scoreReportsStudents.index');
+    Route::get('/score-reports-students/{grade}/period', [scoreReportsController::class, 'period'])->name('scoreReports.period');
+
 
 });
 
