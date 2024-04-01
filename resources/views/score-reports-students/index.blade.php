@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Score Grades') }}
+            {{ __('Score Students') }}
         </h2>
     </x-slot>
 
@@ -22,7 +22,7 @@
 
                                     <div class="mx-5">
                                         <h4 class="text-xl font-semibold text-gray-700">{{ $grade->name }}</h4>
-                                        <a href="{{ route('scoreReports.period', $grade->id) }}" class="text-gray-500">Ver calificaciones</a>
+                                        <a href="{{ route('scoreReportsStudents.period', $grade->id) }}" class="text-gray-500">Ver calificaciones</a>
                                     </div>
                                 </div>
                             </div>

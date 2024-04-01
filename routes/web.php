@@ -76,7 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/score-reports/{grade}/score-grade/{period}/period', [scoreReportsController::class, 'scoreGrade'])->name('scoreReports.scoreGrade');
 
     Route::get('/score-reports-students', [ScoreReportStudentController::class, 'index'])->name('scoreReportsStudents.index');
-    Route::get('/score-reports-students/{grade}/period', [scoreReportsController::class, 'period'])->name('scoreReports.period');
+    Route::get('/score-reports-students/{grade}/period', [ScoreReportStudentController::class, 'period'])->name('scoreReportsStudents.period');
+    Route::get('/score-reports-students/{grade}/grade/{period}/period', [ScoreReportStudentController::class, 'selectStudent'])->name('scoreReportsStudents.select-student');
+    Route::get('/score-reports-students/{grade}/grade/{period}/period/{student}/student', [ScoreReportStudentController::class, 'scoreStudent'])->name('scoreReportsStudents.score-student');
 
 
 });
