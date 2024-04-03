@@ -32,6 +32,6 @@ class Student extends Model
 
     public function studentHomework(): HasMany
     {
-        return $this->hasMany(StudentHomeworks::class);
+        return $this->hasMany(StudentHomeworks::class, 'student_id', 'id');
     }
 }

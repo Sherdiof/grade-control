@@ -70,7 +70,7 @@
                         </div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 relative overflow-y-auto justify-center flex overflow-x-auto">
                             <div class="inline-block shadow rounded-lg  overflow-hidden">
-                                <table class="leading-normal table-fixed border-separate border-spacing-2 border border-slate-400">
+                                <table class="leading-normal table-fixed border-separate border border-slate-400">
                                     <thead>
                                     <tr>
                                         <th

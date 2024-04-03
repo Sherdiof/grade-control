@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Homeworks extends Model
 {
@@ -28,8 +29,8 @@ class Homeworks extends Model
         return $this->belongsTo(Period::class);
     }
 
-    public function studentHomework(): BelongsTo
+    public function studentHomework(): HasMany
     {
-        return $this->belongsTo(StudentHomeworks::class);
+        return $this->hasMany(StudentHomeworks::class);
     }
 }

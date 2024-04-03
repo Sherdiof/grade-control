@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\HomeworkGradeController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScoreReportCourseController;
 use App\Http\Controllers\scoreReportsController;
 use App\Http\Controllers\ScoreReportStudentController;
 use App\Http\Controllers\StudentController;
@@ -80,6 +81,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/score-reports-students/{grade}/grade/{period}/period', [ScoreReportStudentController::class, 'selectStudent'])->name('scoreReportsStudents.select-student');
     Route::get('/score-reports-students/{grade}/grade/{period}/period/{student}/student', [ScoreReportStudentController::class, 'scoreStudent'])->name('scoreReportsStudents.score-student');
 
+    Route::get('/score-reports-course', [ScoreReportCourseController::class, 'index'])->name('scoreReportsCourse.index');
+    Route::get('/score-reports-course/{grade}/grade', [ScoreReportCourseController::class, 'courses'])->name('scoreReportsCourse.course');
+    Route::get('/score-reports-course/{grade}/grade/{course}/course', [ScoreReportCourseController::class, 'period'])->name('scoreReportsCourse.period');
+    Route::get('/score-reports-course/{grade}/grade/{course}/course/{period}/period', [ScoreReportCourseController::class, 'scoreCourse'])->name('scoreReportsCourse.score-course');
 
 });
 
