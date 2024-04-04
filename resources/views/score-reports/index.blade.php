@@ -10,6 +10,11 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
                 <div class="m-6">
+                    <div class="mb-10">
+                        <h2 class=" text-gray-600 text-4xl font-semibold">CALIFICACIONES DE LA UNIDAD
+                        </h2>
+                        <span class="text-md text-xl">Seleccione el grado que desea visualizar</span>
+                    </div>
                     <div class="flex flex-wrap -mx-6">
                         @foreach($grades as $grade)
                         <div class="w-full px-6 my-4 sm:w-1/2 xl:w-1/3">

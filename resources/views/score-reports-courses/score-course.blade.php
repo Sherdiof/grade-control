@@ -10,22 +10,37 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
                 <!-- component -->
-                <div class="bg-white p-8 rounded-md w-full">
-                    <div class=" flex items-center justify-between pb-6">
-                        <div>
-                            <h2 class="text-gray-600 text-2xl font-semibold">{{ $grade->name }}</h2>
-                            <h2 class="text-gray-600 text-2xl font-semibold">{{ $course->name }}</h2>
-                            <span class="text-md">{{ $period->name }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="lg:ml-40 ml-10 space-x-8">
-                                <button class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
-                                <a href="{{ route('scoreReportsCourse.period', [$grade, $course]) }}" class="tracking-wide cursor-pointer
+                <div class="flex justify-between mt-10 px-8">
+                    <div>
+                        <h2 class="text-gray-600 text-4xl font-semibold">CUADROS DE ZONA
+                        </h2>
+                        <span class="text-md text-2xl">{{ $period->name }}</span>
+                    </div>
+
+                    <div class="flex items-center justify-end mt-2">
+                        <div class="lg:ml-40 ml-10 space-x-8">
+                            <button class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
+                            <a href="{{ route('scoreReportsCourse.period', [$grade, $course]) }}" class="tracking-wide cursor-pointer
                                 px-4 py-3 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100">
-                                    <span>Go back</span>
-                                </a>
-                            </div>
+                                <span>Go back</span>
+                            </a>
                         </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-md w-full">
+                    <div class=" flex items-center justify-between pb-1">
+                        <div>
+
+                            <h2 class="mt-10 text-gray-600 text-xl">
+                                <span class="font-semibold">Curso: </span>
+                                <span class="text-gray-600">{{ $course->name }}</span>
+                            </h2>
+                            <h2 class="text-gray-600 text-xl">
+                                <span class="font-semibold">Grado: </span>
+                                <span class="text-gray-600">{{ $grade->name }}</span>
+                            </h2>
+                        </div>
+
                     </div>
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 relative overflow-y-auto max-h-[60rem] overflow-x-auto">
