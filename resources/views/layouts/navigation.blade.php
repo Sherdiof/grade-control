@@ -18,9 +18,29 @@
                         <li class="mb-2"><a href="{{ route('assignments.index') }}" class="{{ request()->routeIs('assignments.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Assignments") }}</a></li>
                         <li class="mb-2"><a href="{{ route('attendance.index') }}" class="{{ request()->routeIs('attendance.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Attendance") }}</a></li>
                         <li class="mb-2"><a href="{{ route('homeworks.index') }}" class="{{ request()->routeIs('homeworks.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Homeworks") }}</a></li>
-                        <li class="mb-2"><a href="{{ route('scoreReports.index') }}" class="{{ request()->routeIs('scoreReports.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Reports") }}</a></li>
-                        <li class="mb-2"><a href="{{ route('scoreReportsStudents.index') }}" class="{{ request()->routeIs('scoreReportsStudents.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Students") }}</a></li>
-                        <li class="mb-2"><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Courses") }}</a></li>
+{{--                        <li class="mb-2"><a href="{{ route('scoreReports.index') }}" class="{{ request()->routeIs('scoreReports.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Reports") }}</a></li>--}}
+{{--                        <li class="mb-2"><a href="{{ route('scoreReportsStudents.index') }}" class="{{ request()->routeIs('scoreReportsStudents.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Students") }}</a></li>--}}
+{{--                        <li class="mb-2"><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Courses") }}</a></li>--}}
+                        <li>
+                            <details class="group">
+                                <summary class="flex items-center gap-2 font-medium marker:content-none hover:cursor-pointer">
+                                    Score Reports
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+
+                                </summary>
+                                <article class="px-4 pb-4">
+                                    <ul class="flex flex-col mt-2 gap-1 pl-2">
+                                        <li><a href="{{ route('scoreReports.index') }}" class="{{ request()->routeIs('scoreReports.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("General") }}</a></li>
+                                        <li><a href="{{ route('scoreReportsStudents.index') }}" class="{{ request()->routeIs('scoreReportsStudents.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("Students") }}</a></li>
+                                        <li><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("Zone boxes") }}</a></li>
+                                    </ul>
+                                </article>
+                            </details>
+                        </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -71,6 +91,22 @@
                 <!-- Content Body -->
 
         <script>
+
+            // -------------
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const toggleMenus = document.querySelectorAll('.toggle-menu');
+
+                toggleMenus.forEach(function (toggleMenu) {
+                    toggleMenu.addEventListener('click', function (event) {
+                        event.preventDefault();
+
+                        const submenu = toggleMenu.nextElementSibling;
+                        submenu.classList.toggle('hidden');
+                    });
+                });
+            });
+
             const sidebar = document.getElementById('sidebar');
             const openSidebarButton = document.getElementById('open-sidebar');
 
