@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ScoreGradesExport;
 use App\Models\Classes;
 use App\Models\Grade;
 use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class scoreReportsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
 //        $classes = Classes::select('grade.id as grade_id', 'classes.name as class', 'g.name as grade')
@@ -25,9 +24,6 @@ class scoreReportsController extends Controller
         return view('score-reports.index', compact('grades'));
     }
 
-/**
- * Show the form for creating a new resource.
- */
     public function scoreGrade(Grade $grade, Period $period)
     {
         $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
@@ -82,44 +78,16 @@ class scoreReportsController extends Controller
         return view('score-reports.score-grade', compact('students', 'courses', 'grade', 'period'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function period(string $grade)
     {
         $periods = Period::all();
         return view('score-reports.period', compact('grade', 'periods'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function exportExcel(Grade $grade, Period $period)
     {
-        //
-    }
+        $export = new ScoreGradesExport($period, $grade);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return Excel::download($export, $grade->name . '-' . $period->name . '-' . $period->year . '.xlsx');
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ScoreCourseExport;
 use App\Models\Assigment;
 use App\Models\Course;
 use App\Models\Grade;
 use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreReportCourseController extends Controller
 {
@@ -77,5 +79,13 @@ class ScoreReportCourseController extends Controller
 //        return response()->json($homeworks);
         return view('score-reports-courses.score-course', compact('grade', 'course', 'period', 'students', 'homeworks'));
     }
+
+    public function exportExcel(Grade $grade, Course $course, Period $period)
+    {
+        $export = new ScoreCourseExport($grade, $course, $period);
+
+        return Excel::download($export, $course->name . '-' . $grade->name . '-' . $period->name . '-' . $period->year .'.xlsx');
+    }
+
 
 }

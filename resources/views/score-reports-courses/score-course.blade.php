@@ -19,7 +19,7 @@
 
                     <div class="flex items-center justify-end mt-2">
                         <div class="lg:ml-40 ml-10 space-x-8">
-                            <button class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
+                            <a href="{{ route('scoreReportsCourse.excel', ['grade' => $grade, 'course' => $course, 'period' => $period]) }}" class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">{{ __('Export to Excel') }}</a>
                             <a href="{{ route('scoreReportsCourse.period', [$grade, $course]) }}" class="tracking-wide cursor-pointer
                                 px-4 py-3 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100">
                                 <span>Go back</span>

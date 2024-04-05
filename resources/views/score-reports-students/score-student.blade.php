@@ -7,9 +7,9 @@
 
     <div class="flex justify-center">
         <div class="w-full flex justify-center mx-4 rounded shadow mt-7 max-w-xl">
-            <a href="#" aria-current="false"
+            <a href="{{ route('scoreReportsStudents.excel', ['grade' => $grade, 'period' => $period, 'student' => $informationStudent->id]) }}" aria-current="false"
                class="w-full flex justify-center font-medium rounded-l px-5 py-2 border bg-white text-gray-800 border-gray-200 hover:bg-gray-100">
-                Recent
+                Export to Excel
             </a>
 
             <a href="#" aria-current="page"
@@ -19,7 +19,7 @@
 
             <a href="{{ route('scoreReportsStudents.select-student', [$grade, $period]) }}" aria-current="false"
                class="w-full flex items-center gap-x-2 justify-center font-medium rounded-r px-5 py-2 border bg-white text-gray-800 border-gray-200 hover:bg-gray-100">
-                Trending
+                Back
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"

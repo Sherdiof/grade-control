@@ -86,6 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/score-reports-course/{grade}/grade/{course}/course', [ScoreReportCourseController::class, 'period'])->name('scoreReportsCourse.period');
     Route::get('/score-reports-course/{grade}/grade/{course}/course/{period}/period', [ScoreReportCourseController::class, 'scoreCourse'])->name('scoreReportsCourse.score-course');
 
+    Route::get('/export-score-grade/{grade}/{period}', [scoreReportsController::class, 'exportExcel'])->name('scoreReports.excel');
+    Route::get('/export-score-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportExcel'])->name('scoreReportsStudents.excel');
+    Route::get('/export-score-course/{grade}/{course}/{period}', [ScoreReportCourseController::class, 'exportExcel'])->name('scoreReportsCourse.excel');
 });
 
 require __DIR__.'/auth.php';

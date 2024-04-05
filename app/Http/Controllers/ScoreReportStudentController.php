@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ScoreGradesExport;
+use App\Exports\ScoreStudentExport;
 use App\Models\Course;
 use App\Models\Grade;
 use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreReportStudentController extends Controller
 {
@@ -100,51 +103,12 @@ class ScoreReportStudentController extends Controller
         return view('score-reports-students.score-student', compact('students', 'courses', 'grade', 'period', 'informationStudent'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function exportExcel(Grade $grade, Period $period, int $id)
     {
-        //
-    }
+        $student = Student::find($id);
+        $export = new ScoreStudentExport($grade, $period, $id);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        return Excel::download($export, strtoupper($student->name) . '-' . $grade->name . '-' . $period->name . '-' . $period->year .'.xlsx');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
