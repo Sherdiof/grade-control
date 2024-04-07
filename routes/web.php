@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\addHomeworkScoreController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Chart1Controller;
 use App\Http\Controllers\ClassStudentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassController;
@@ -89,6 +90,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/export-score-grade/{grade}/{period}', [scoreReportsController::class, 'exportExcel'])->name('scoreReports.excel');
     Route::get('/export-score-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportExcel'])->name('scoreReportsStudents.excel');
     Route::get('/export-score-course/{grade}/{course}/{period}', [ScoreReportCourseController::class, 'exportExcel'])->name('scoreReportsCourse.excel');
+
+    Route::get('/chart-1/grades', [ Chart1Controller::class, 'chartGrades'])->name('chart1.index');
+    Route::get('/chart-1/teacher', [ Chart1Controller::class, 'chartTeachers'])->name('chart1.index');
 });
 
 require __DIR__.'/auth.php';
