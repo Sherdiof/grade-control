@@ -19,7 +19,7 @@ class Chart1Controller extends Controller
                 ->groupBy('grades.name')
                 ->get();
 
-        return response()->json($grades);
+        return response()->json($grades, 200);
     }
 
     public function chartTeachers()
@@ -31,5 +31,6 @@ class Chart1Controller extends Controller
                 ->get();
         return response()->json($teachers);
     }
+
 
 }
