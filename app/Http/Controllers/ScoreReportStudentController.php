@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Grade;
 use App\Models\Period;
 use App\Models\Student;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -109,6 +110,72 @@ class ScoreReportStudentController extends Controller
         $export = new ScoreStudentExport($grade, $period, $id);
 
         return Excel::download($export, strtoupper($student->name) . '-' . $grade->name . '-' . $period->name . '-' . $period->year .'.xlsx');
+    }
 
+    public function exportPDF(Grade $grade, Period $period, int $id)
+    {
+        $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
+            ->where('id', $id)
+            ->whereHas('studentHomework.homework', function ($query) use ($period) {
+                $query->where('period_id', $period->id);
+            })
+            ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
+                $query->where('grade_id', $grade->id);
+            })
+            ->get();
+
+        // Estructura de datos para pasar a la vista
+        $data = [];
+        foreach ($students as $student) {
+            $studentData = [
+                'name' => $student->name,
+                'class' => $student->classtudent->class->name,
+                'scores' => [],
+                'average' => 0,
+            ];
+
+            $totalCourses = 0;
+            $totalScore = 0;
+
+            foreach ($student->studentHomework as $studentHomework) {
+                $score = $studentHomework->score;
+                $courseName = $studentHomework->homework->assigment->course->name;
+
+                if (!isset($studentData['scores'][$courseName])) {
+                    $studentData['scores'][$courseName] = $score;
+                    $totalCourses++;
+                }
+
+                $totalScore += $score;
+            }
+
+            $studentData['average'] = $totalCourses > 0 ? $totalScore / $totalCourses : 0;
+
+            $data[] = $studentData;
+        }
+
+        // Obtener la lista de cursos
+        $courses = [];
+        foreach ($students as $student) {
+            foreach ($student->studentHomework as $studentHomework) {
+                $courseName = $studentHomework->homework->assigment->course->name;
+                $courses[$courseName] = $courseName;
+            }
+        }
+
+        $informationStudent = Student::find($id);
+
+//        return response()->json($data);
+
+        $pdf = PDF::loadView('pdf.score-student', [
+            'students' => $data,
+            'period' => $period,
+            'grade' => $grade,
+            'informationStudent' => $informationStudent,
+            'courses' => $courses
+        ]);
+
+
+        return $pdf->download('archivo.pdf');
     }
 }

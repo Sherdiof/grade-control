@@ -17,8 +17,11 @@
                             <span class="text-xl">{{ $period->name }}</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="lg:ml-40 ml-10 space-x-8">
-                                <a href="{{ route('scoreReports.excel', ['grade' => $grade, 'period' => $period]) }}" class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Export to Excel') }}</a>
+                            <div class="lg:ml-40 ml-10 space-x-2">
+                                <a href="{{ route('scoreReports.statistics', ['grade' => $grade, 'period' => $period]) }}"
+                                   class="bg-purple-500 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Statistics') }}</a>
+                                <a href="{{ route('scoreReports.excel', ['grade' => $grade, 'period' => $period]) }}"
+                                   class="bg-indigo-600 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Export to Excel') }}</a>
                                 <a href="{{ route('scoreReports.period', $grade) }}" class="tracking-wide cursor-pointer
                                 px-4 py-3 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100">
                                     <span>Go back</span>
@@ -44,6 +47,10 @@
                                         @endforeach
                                         <th
                                             class="px-5 py-3 border-b-2 border-white bg-gray-200 border-r text-xs text-center font-semibold text-gray-600 uppercase tracking-wider">
+                                            Cursos Reprobados
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 border-b-2 border-white bg-gray-200 border-r text-xs text-center font-semibold text-gray-600 uppercase tracking-wider">
                                             Promedio
                                         </th>
                                     </tr>
@@ -62,11 +69,19 @@
 
                                                 @foreach($scores as $score => $i)
                                                     @if($score === $index)
-                                                        <td class="px-5 py-5 text-center border-b border-r border-gray-200 bg-white text-sm">
-                                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                                {{$i}}
-                                                            </p>
-                                                        </td>
+                                                        @if($i > 59)
+                                                            <td class="px-5 py-5 text-center border-b border-r border-gray-200 bg-white text-sm">
+                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                                    {{$i}}
+                                                                </p>
+                                                            </td>
+                                                        @else
+                                                            <td class="px-5 py-5 text-center border-b border-r border-gray-200 bg-white text-sm">
+                                                                <p class="text-red-500 whitespace-no-wrap">
+                                                                    {{$i}}
+                                                                </p>
+                                                            </td>
+                                                        @endif
                                                         @php
                                                             $scoreFound = true;
                                                         @endphp
@@ -81,6 +96,11 @@
                                                     </td>
                                                 @endif
                                             @endforeach
+                                            <td class="px-5 py-5 text-center border-b border-r border-gray-200 bg-red-50 text-sm">
+                                                <p class="text-red-500 whitespace-no-wrap">
+                                                    {{ $student['lostCourse'] }}
+                                                </p>
+                                            </td>
                                             <td class="px-5 py-5 text-center border-b border-r border-gray-200 bg-green-50 text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{number_format($student['average'], 2)}}
