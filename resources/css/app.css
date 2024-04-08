@@ -26,3 +26,8 @@
     background: var(--c-scrollbar-hover);
 }
 
+.chart-container {
+    width: 100%;
+    height: 500px;
+}
+

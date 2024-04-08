@@ -4,6 +4,7 @@ use App\Http\Controllers\addHomeworkScoreController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Chart1Controller;
 use App\Http\Controllers\ClassStudentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CourseController;
@@ -35,12 +36,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/dashboard', [ DashboardController::class, 'index'])->name('dashboard');
     Route::get('/homework-grades', [HomeworkGradeController::class, 'groupHomeworksGrades'])->name('homeworks.groupHomeworksGrades');
     Route::get('/homework-grades/{grade_id}', [HomeworkGradeController::class, 'viewHomeworks'])->name('homeworks.viewHomeworksGrades');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
