@@ -170,4 +170,58 @@ class scoreReportsController extends Controller
         return view('score-reports.statistics', compact('grade', 'period', 'topTen', 'bottomTen'));
     }
 
+    public function topAverage(Grade $grade, Period $period)
+    {
+        $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
+            ->whereHas('studentHomework.homework', function ($query) use ($period) {
+                $query->where('period_id', $period->id);
+            })
+            ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
+                $query->where('grade_id', $grade->id);
+            })
+            ->get()
+            ->map(function ($student) {
+                $coursesScores = [];
+                $totalCourses = 0;
+                $totalScore = 0;
+
+                foreach ($student->studentHomework as $studentHomework) {
+                    $score = $studentHomework->score;
+                    $courseName = $studentHomework->homework->assigment->course->name;
+
+                    // Agregar condiciones si es necesario
+
+                    if (!isset($coursesScores[$courseName])) {
+                        $coursesScores[$courseName] = 0;
+                        $totalCourses++;
+                    }
+
+                    $coursesScores[$courseName] += $score;
+                    $totalScore += $score;
+                }
+
+                $average = $totalCourses > 0 ? $totalScore / $totalCourses : 0;
+
+                return [
+                    'name' => $student->name,
+                    'section' => $student->classtudent->class->name,
+                    'average' => $average,
+                ];
+            });
+
+        //PROMEDIOS MAYORES
+        $sortedTopAverages = $students->sortByDesc(function ($student) {
+            return $student['average'];
+        });
+
+        if ($sortedTopAverages->count() <= 10) {
+            // Si hay 10 o menos elementos en el arreglo, tomar todos los elementos ordenados
+            $topTen = $sortedTopAverages->values(); // Reindexar los elementos para evitar índices desordenados
+        } else {
+            // Si hay más de 10 elementos en el arreglo, tomar los primeros 10 elementos ordenados
+            $topTen = $sortedTopAverages->take(10);
+        }
+
+        return response()->json($topTen);
+    }
 }

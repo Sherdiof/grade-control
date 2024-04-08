@@ -31,7 +31,7 @@
                     </div>
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 relative overflow-y-auto max-h-[60rem] overflow-x-auto">
-                            <div class="rounded-lg overflow-hidden flex-row">
+                            <div class="rounded-lg overflow-hidden flex justify-between">
                                 {{--               BASE TABLE SCORE-GRADE                 --}}
                                 <table class="shadow rounded-lg leading-normal w-1/2">
                                     <thead>
@@ -68,6 +68,11 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                <div class="ml-5  w-1/2">
+                                    <h1>HOLAAA PRUEBA</h1>
+                                    <!-- HTML -->
+                                    <div id="chartdiv" class="border"></div>
+                                </div>
                             </div>
 
                             <div class="rounded-lg overflow-hidden flex-row mt-16">
@@ -116,4 +121,74 @@
             </div>
         </div>
     </div>
+
+{{--    CHART DE TOP MEJORES ALUMNOS--}}
+    <!-- Styles -->
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <!-- Chart code -->
+    <script>
+        am5.ready(function() {
+
+// Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+            var root = am5.Root.new("chartdiv");
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+            var chart = root.container.children.push(
+                am5percent.PieChart.new(root, {
+                    endAngle: 270
+                })
+            );
+
+// Create series
+// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+            var series = chart.series.push(
+                am5percent.PieSeries.new(root, {
+                    valueField: "average",
+                    categoryField: "name",
+                    endAngle: 270
+                })
+            );
+
+            series.states.create("hidden", {
+                endAngle: -90
+            });
+
+// Set data
+// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+
+            am5.net.load("http://127.0.0.1:8000/top-average/"+ {
+                var data1 = am5.JSONParser.parse(result.response);
+                console.log(result.response);
+
+                // Set data for XY chart
+                series1.data.setAll(data1);
+
+                // Make stuff animate on load
+                series1.appear(1000, 100);
+            }).catch(function(result) {
+                console.log("Error loading " + result.xhr.responseURL);
+            });
+
+        }); // end am5.ready()
+    </script>
+
 </x-app-layout>

@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/chart-1/grades', [ Chart1Controller::class, 'chartGrades'])->name('chart1.index');
     Route::get('/chart-1/teacher', [ Chart1Controller::class, 'chartTeachers'])->name('chart1.index');
+    Route::get('/top-average/{grade}/{period}', [ scoreReportsController::class, 'topAverage'])->name('topAverage');
 });
 
 require __DIR__.'/auth.php';
