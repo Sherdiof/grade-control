@@ -68,14 +68,20 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                <div class="ml-5  w-1/2">
-                                    <h1>HOLAAA PRUEBA</h1>
+
+{{--                                CHART1--}}
+                                <div class="ml-1 border w-1/2">
+                                    <div class="px-3">
+                                    <h2 class="flex justify-center mt-4 my-5 text-xl items-center w-90 p-4 mb-4 text-gray-500 bg-white rounded-lg shadow">
+                                       Estudiantes destacados</h2>
+                                    </div>
                                     <!-- HTML -->
-                                    <div id="chartdiv" class="border"></div>
+                                    <div id="" class=""></div>
                                 </div>
                             </div>
+{{--                            FIN DE CHART1--}}
 
-                            <div class="rounded-lg overflow-hidden flex-row mt-16">
+                            <div class="rounded-lg overflow-hidden flex-row mt-16 flex justify-between">
                                 {{--               BASE TABLE SCORE-GRADE                 --}}
                                 <table class="shadow rounded-lg leading-normal w-1/2">
                                     <thead>
@@ -112,17 +118,32 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+
+{{--                                CHART1--}}
+                                <div class="ml-1 border w-1/2">
+                                    <div class="px-3">
+                                        <h2 class="flex justify-center mt-4 my-5 text-xl items-center w-90 p-4 mb-4 text-gray-500 bg-white rounded-lg shadow">
+                                            Estudiantes destacados</h2>
+                                    </div>
+                                    <!-- HTML -->
+                                    <div id="chartdiv" class=""></div>
+                                </div>
+                            </div>
+                            {{--                            FIN DE CHART1--}}
                             </div>
                         </div>
                     </div>
                 </div>
 
-
             </div>
         </div>
     </div>
 
-{{--    CHART DE TOP MEJORES ALUMNOS--}}
+    <input type="hidden" id="grade" value="{{$grade->id}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+    <input type="hidden" id="period" value="{{$period->id}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+
+    {{-- CHART DE TOP MEJORES ALUMNOS--}}
+
     <!-- Styles -->
     <style>
         #chartdiv {
@@ -133,9 +154,10 @@
 
     <!-- Resources -->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
+    <!-- Chart code -->
     <!-- Chart code -->
     <script>
         am5.ready(function() {
@@ -143,6 +165,8 @@
 // Create root element
 // https://www.amcharts.com/docs/v5/getting-started/#Root_element
             var root = am5.Root.new("chartdiv");
+            var grade = document.getElementById('grade').value; // Asigna el valor correcto de grado
+            var period = document.getElementById('period').value; // Asigna el valor correcto de período
 
 // Set themes
 // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -151,44 +175,95 @@
             ]);
 
 // Create chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
-            var chart = root.container.children.push(
-                am5percent.PieChart.new(root, {
-                    endAngle: 270
-                })
-            );
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
+            }));
+
+// Add cursor
+// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+            cursor.lineY.set("visible", false);
+
+
+// Create axes
+// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
+
+            xRenderer.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "name",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                strokeOpacity: 0.1
+            })
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                renderer: yRenderer
+            }));
 
 // Create series
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
-            var series = chart.series.push(
-                am5percent.PieSeries.new(root, {
-                    valueField: "average",
-                    categoryField: "name",
-                    endAngle: 270
+// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                name: "Series 1",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "average",
+                sequencedInterpolation: true,
+                categoryXField: "name",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{averageY}"
                 })
-            );
+            }));
 
-            series.states.create("hidden", {
-                endAngle: -90
+            series.columns.template.setAll({cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0});
+            series.columns.template.adapters.add("fill", function (fill, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
             });
 
-// Set data
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+            series.columns.template.adapters.add("stroke", function (stroke, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
 
-            am5.net.load("http://127.0.0.1:8000/top-average/"+ {
-                var data1 = am5.JSONParser.parse(result.response);
-                console.log(result.response);
 
-                // Set data for XY chart
-                series1.data.setAll(data1);
+            // Carga de datos--}}
+            am5.net.load("http://127.0.0.1:8000/bottom-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
+                var data = am5.JSONParser.parse(result.response);
 
-                // Make stuff animate on load
-                series1.appear(1000, 100);
-            }).catch(function(result) {
+                xAxis.data.setAll(data);
+                series.data.setAll(data);
+                series.appear(1000);
+                chart.appear(1000, 100);
+            }).catch(function (result) {
                 console.log("Error loading " + result.xhr.responseURL);
-            });
+                console.log("Error message: " + result.error);
 
-        }); // end am5.ready()
+            });
+        });// end am5.ready()
     </script>
 
 </x-app-layout>
