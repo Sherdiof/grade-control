@@ -19,7 +19,7 @@
                         <div class="flex items-center justify-between">
                             <div class="lg:ml-40 ml-10 space-x-2">
                                 <a href="{{ route('scoreReports.statistics', ['grade' => $grade, 'period' => $period]) }}"
-                                   class="bg-purple-500 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Statistics') }}</a>
+                                   class="bg-purple-500 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Academic performance') }}</a>
                                 <a href="{{ route('scoreReports.excel', ['grade' => $grade, 'period' => $period]) }}"
                                    class="bg-indigo-600 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer"> {{ __('Export to Excel') }}</a>
                                 <a href="{{ route('scoreReports.period', $grade) }}" class="tracking-wide cursor-pointer
