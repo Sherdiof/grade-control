@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 relative overflow-y-auto max-h-[60rem] overflow-x-auto">
+                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 relative overflow-x-auto">
                             <div class="rounded-lg overflow-hidden flex justify-between">
                                 {{--               BASE TABLE SCORE-GRADE                 --}}
                                 <table class="shadow rounded-lg leading-normal w-1/2">
@@ -76,7 +76,7 @@
                                        Estudiantes destacados</h2>
                                     </div>
                                     <!-- HTML -->
-                                    <div id="" class=""></div>
+                                    <div id="chartdivtop" class=""></div>
                                 </div>
                             </div>
 {{--                            FIN DE CHART1--}}
@@ -119,17 +119,17 @@
                                     </tbody>
                                 </table>
 
-{{--                                CHART1--}}
+{{--                                CHART 2--}}
                                 <div class="ml-1 border w-1/2">
                                     <div class="px-3">
                                         <h2 class="flex justify-center mt-4 my-5 text-xl items-center w-90 p-4 mb-4 text-gray-500 bg-white rounded-lg shadow">
-                                            Estudiantes destacados</h2>
+                                            Estudiantes con bajo rendimiento</h2>
                                     </div>
                                     <!-- HTML -->
-                                    <div id="chartdiv" class=""></div>
+                                    <div id="chartdivbottom" class=""></div>
                                 </div>
                             </div>
-                            {{--                            FIN DE CHART1--}}
+                            {{--                            FIN DE CHART 2--}}
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,12 @@
 
     <!-- Styles -->
     <style>
-        #chartdiv {
+        #chartdivtop {
+            width: 100%;
+            height: 500px;
+        }
+
+        #chartdivbottom {
             width: 100%;
             height: 500px;
         }
@@ -160,23 +165,16 @@
     <!-- Chart code -->
     <!-- Chart code -->
     <script>
+        var grade = document.getElementById('grade').value; // Asigna el valor correcto de grado
+        var period = document.getElementById('period').value; // Asigna el valor correcto de período
+
         am5.ready(function() {
-
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("chartdiv");
-            var grade = document.getElementById('grade').value; // Asigna el valor correcto de grado
-            var period = document.getElementById('period').value; // Asigna el valor correcto de período
-
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-            root.setThemes([
-                am5themes_Animated.new(root)
+            // Gráfica superior
+            var rootTop = am5.Root.new("chartdivtop");
+            rootTop.setThemes([
+                am5themes_Animated.new(rootTop)
             ]);
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+            var chartTop = rootTop.container.children.push(am5xy.XYChart.new(rootTop, {
                 panX: true,
                 panY: true,
                 wheelX: "panX",
@@ -185,85 +183,135 @@
                 paddingLeft: 0,
                 paddingRight: 1
             }));
-
-// Add cursor
-// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-            cursor.lineY.set("visible", false);
-
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-            var xRenderer = am5xy.AxisRendererX.new(root, {
+            var cursorTop = chartTop.set("cursor", am5xy.XYCursor.new(rootTop, {}));
+            cursorTop.lineY.set("visible", false);
+            var xRendererTop = am5xy.AxisRendererX.new(rootTop, {
                 minGridDistance: 30,
                 minorGridEnabled: true
             });
-
-            xRenderer.labels.template.setAll({
+            xRendererTop.labels.template.setAll({
                 rotation: -90,
                 centerY: am5.p50,
                 centerX: am5.p100,
                 paddingRight: 15
             });
-
-            xRenderer.grid.template.setAll({
+            xRendererTop.grid.template.setAll({
                 location: 1
             })
-
-            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+            var xAxisTop = chartTop.xAxes.push(am5xy.CategoryAxis.new(rootTop, {
                 maxDeviation: 0.3,
                 categoryField: "name",
-                renderer: xRenderer,
-                tooltip: am5.Tooltip.new(root, {})
+                renderer: xRendererTop,
+                tooltip: am5.Tooltip.new(rootTop, {})
             }));
-
-            var yRenderer = am5xy.AxisRendererY.new(root, {
+            var yRendererTop = am5xy.AxisRendererY.new(rootTop, {
                 strokeOpacity: 0.1
             })
-
-            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            var yAxisTop = chartTop.yAxes.push(am5xy.ValueAxis.new(rootTop, {
                 maxDeviation: 0.3,
-                renderer: yRenderer
+                renderer: yRendererTop
             }));
-
-// Create series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+            var seriesTop = chartTop.series.push(am5xy.ColumnSeries.new(rootTop, {
                 name: "Series 1",
-                xAxis: xAxis,
-                yAxis: yAxis,
+                xAxis: xAxisTop,
+                yAxis: yAxisTop,
                 valueYField: "average",
                 sequencedInterpolation: true,
                 categoryXField: "name",
-                tooltip: am5.Tooltip.new(root, {
+                tooltip: am5.Tooltip.new(rootTop, {
                     labelText: "{averageY}"
                 })
             }));
-
-            series.columns.template.setAll({cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0});
-            series.columns.template.adapters.add("fill", function (fill, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            seriesTop.columns.template.setAll({cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0});
+            seriesTop.columns.template.adapters.add("fill", function (fill, target) {
+                return chartTop.get("colors").getIndex(seriesTop.columns.indexOf(target));
             });
-
-            series.columns.template.adapters.add("stroke", function (stroke, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            seriesTop.columns.template.adapters.add("stroke", function (stroke, target) {
+                return chartTop.get("colors").getIndex(seriesTop.columns.indexOf(target));
             });
-
-
-            // Carga de datos--}}
-            am5.net.load("http://127.0.0.1:8000/bottom-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
+            am5.net.load("http://score.test/top-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
                 var data = am5.JSONParser.parse(result.response);
-
-                xAxis.data.setAll(data);
-                series.data.setAll(data);
-                series.appear(1000);
-                chart.appear(1000, 100);
+                xAxisTop.data.setAll(data);
+                seriesTop.data.setAll(data);
+                seriesTop.appear(1000);
+                chartTop.appear(1000, 100);
             }).catch(function (result) {
                 console.log("Error loading " + result.xhr.responseURL);
                 console.log("Error message: " + result.error);
-
             });
-        });// end am5.ready()
+
+            // Gráfica inferior
+            var rootBottom = am5.Root.new("chartdivbottom");
+            rootBottom.setThemes([
+                am5themes_Animated.new(rootBottom)
+            ]);
+            var chartBottom = rootBottom.container.children.push(am5xy.XYChart.new(rootBottom, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
+            }));
+            var cursorBottom = chartBottom.set("cursor", am5xy.XYCursor.new(rootBottom, {}));
+            cursorBottom.lineY.set("visible", false);
+            var xRendererBottom = am5xy.AxisRendererX.new(rootBottom, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
+            xRendererBottom.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+            xRendererBottom.grid.template.setAll({
+                location: 1
+            })
+            var xAxisBottom = chartBottom.xAxes.push(am5xy.CategoryAxis.new(rootBottom, {
+                maxDeviation: 0.3,
+                categoryField: "name",
+                renderer: xRendererBottom,
+                tooltip: am5.Tooltip.new(rootBottom, {})
+            }));
+            var yRendererBottom = am5xy.AxisRendererY.new(rootBottom, {
+                strokeOpacity: 0.1
+            })
+            var yAxisBottom = chartBottom.yAxes.push(am5xy.ValueAxis.new(rootBottom, {
+                maxDeviation: 0.3,
+                renderer: yRendererBottom
+            }));
+            var seriesBottom = chartBottom.series.push(am5xy.ColumnSeries.new(rootBottom, {
+                name: "Series 1",
+                xAxis: xAxisBottom,
+                yAxis: yAxisBottom,
+                valueYField: "average",
+                sequencedInterpolation: true,
+                categoryXField: "name",
+                tooltip: am5.Tooltip.new(rootBottom, {
+                    labelText: "{averageY}"
+                })
+            }));
+            seriesBottom.columns.template.setAll({cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0});
+            seriesBottom.columns.template.adapters.add("fill", function (fill, target) {
+                return chartBottom.get("colors").getIndex(seriesBottom.columns.indexOf(target));
+            });
+            seriesBottom.columns.template.adapters.add("stroke", function (stroke, target) {
+                return chartBottom.get("colors").getIndex(seriesBottom.columns.indexOf(target));
+            });
+            am5.net.load("http://score.test/bottom-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
+                var data = am5.JSONParser.parse(result.response);
+                xAxisBottom.data.setAll(data);
+                seriesBottom.data.setAll(data);
+                seriesBottom.appear(1000);
+                chartBottom.appear(1000, 100);
+            }).catch(function (result) {
+                console.log("Error loading " + result.xhr.responseURL);
+                console.log("Error message: " + result.error);
+            });
+        });
     </script>
+
 
 </x-app-layout>
