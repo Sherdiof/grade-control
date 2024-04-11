@@ -225,7 +225,7 @@
             seriesTop.columns.template.adapters.add("stroke", function (stroke, target) {
                 return chartTop.get("colors").getIndex(seriesTop.columns.indexOf(target));
             });
-            am5.net.load("http://127.0.0.1:8000/top-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
+            am5.net.load("http://score.test/top-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
                 var data = am5.JSONParser.parse(result.response);
                 xAxisTop.data.setAll(data);
                 seriesTop.data.setAll(data);
@@ -296,7 +296,7 @@
             seriesBottom.columns.template.adapters.add("stroke", function (stroke, target) {
                 return chartBottom.get("colors").getIndex(seriesBottom.columns.indexOf(target));
             });
-            am5.net.load("http://127.0.0.1:8000/bottom-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
+            am5.net.load("http://score.test/bottom-average/" + encodeURIComponent(grade) + "/" + encodeURIComponent(period)).then(function (result) {
                 var data = am5.JSONParser.parse(result.response);
                 xAxisBottom.data.setAll(data);
                 seriesBottom.data.setAll(data);
