@@ -37,7 +37,8 @@ class UserController extends Controller
     {
         $validate = $request->validated();
 
-        User::create($validate);
+        $user = User::create($validate);
+        $user->assignRole($validate['role']);
 
         return redirect()->route('users.index')->with('status', 'Se ha creado el registro correctamente!');
 
@@ -77,6 +78,13 @@ class UserController extends Controller
         }
 
         $user->update();
+        if ($user->hasRole('Admin') && $user->role == 'Docente') {
+            $user->removeRole('Admin');
+            $user->assignRole('Docente');
+        } elseif ($user->hasRole('Docente') && $user->role == 'Admin') {
+            $user->removeRole('Docente');
+            $user->assignRole('Admin');
+        }
         return redirect()->route('users.index')->with('status', 'Se ha actualizado el registro correctamente!');
     }
 

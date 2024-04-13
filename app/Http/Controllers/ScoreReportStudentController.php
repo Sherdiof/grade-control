@@ -175,7 +175,8 @@ class ScoreReportStudentController extends Controller
             'courses' => $courses
         ]);
 
+        $dataStudent = Student::find($id);
 
-        return $pdf->download('archivo.pdf');
+        return $pdf->download(strtoupper($dataStudent->name) . '-' . strtoupper($grade->name) . '-' . strtoupper($dataStudent->classtudent->class->name) . '-' . strtoupper($period->name) . '-' . strtoupper($period->year) .'.pdf');
     }
 }

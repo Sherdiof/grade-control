@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceExport;
 use App\Models\Attendance;
 use App\Models\Classes;
 use App\Models\ClassStudent;
@@ -10,6 +11,7 @@ use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -26,7 +28,17 @@ class AttendanceController extends Controller
 //            ->where('grades.name', 'like', '%' . $search . '%')
 //            ->groupBy('nameGrade', 'class_students.class_id')
 //            ->paginate(10);
-        $grades = Grade::paginate(10);
+
+        if (auth()->user()->role == 'Admin') {
+            $grades = Grade::paginate(10);
+        } else {
+            $grades = Grade::with('assigments')
+                ->whereHas('assigments', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->where('name', 'like', '%' . $search . '%')
+                ->paginate(10);
+        }
 
         return view('attendances.index', compact( 'search', 'grades'));
     }
@@ -164,4 +176,13 @@ class AttendanceController extends Controller
         }
         return redirect()->route('attendance.grade', $grade->id)->with('status', 'Se han actualiado los registros correctamente!');
     }
+
+    public function exportExcel(Classes $class, string $start, string $end)
+    {
+        $export = new AttendanceExport($class, $start, $end);
+
+        return Excel::download($export, $class->grade->name . '-' . $class->name .'-ATTENDANCE.xlsx');
+    }
+
+
 }

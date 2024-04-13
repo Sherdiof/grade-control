@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assigment;
 use App\Models\Course;
+use App\Models\Homeworks;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
@@ -16,12 +19,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        // Admin
         $students = Student::count();
         $teachers = User::where('role', 'Docente')->count();
         $courses = Course::count();
 
-//        return response()->json($teachers);
-        return view('dashboard', compact('students', 'teachers', 'courses'));
+        // Docente
+        $coursesTeacher = Assigment::where('user_id', auth()->user()->id)->count();
+        $gradesTeacher = Assigment::where('user_id', auth()->user()->id)->groupBy('grade_id')->count();
+        $homeworksTeacher = Homeworks::with('assigment')
+            ->whereHas('assigment', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->count();
+
+//        return response()->json($homeworksTeacher);
+        return view('dashboard', compact('students', 'teachers', 'courses', 'coursesTeacher', 'gradesTeacher', 'homeworksTeacher'));
     }
 
     /**

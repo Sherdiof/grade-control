@@ -15,9 +15,9 @@
                             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">{{ __('Edit form') }}</h1>
                             <p class="lg:w-2/3 mx-auto leading-relaxed text-base">{{ __('Edit the data you need') }}</p>
                         </div>
-                        <form action="{{ route('homeworks.update', $homework) }}" method="POST">
+                        <form action="{{ route('homeworks.update', ['homework' => $homework, 'course' => $course]) }}" method="post">
                             @csrf
-                            @method('PATCH')
+                            @method('patch')
                             <div class="lg:w-1/2 md:w-2/3 mx-auto">
                                 <div class="flex flex-wrap -m-2">
 

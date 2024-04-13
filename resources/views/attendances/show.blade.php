@@ -17,7 +17,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="lg:ml-40 ml-10 space-x-8">
-                                <button class="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">New Report</button>
+                                <a href="{{ route('attendance.excel', ['class' => $class, 'start' => $start, 'end' => $end]) }}" class="bg-indigo-600 px-4 py-2.5 rounded-md text-white font-semibold tracking-wide cursor-pointer">{{ __('Export to Excel') }}</a>
                                 <a href="{{ route('attendance.selectDatetoShow', $class->id) }}" class="tracking-wide cursor-pointer
                                 px-4 py-3 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100">
                                     <span>Go back</span>

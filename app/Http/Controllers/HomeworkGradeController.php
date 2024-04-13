@@ -16,18 +16,34 @@ class HomeworkGradeController extends Controller
     {
 
         $search = trim($request->search);
-        $homeworksGrades = Homeworks::join('assigments', 'assigments.id', '=', 'homeworks.assigment_id')
-            ->join('grades', 'grades.id', '=', 'assigments.grade_id')
-            ->join('courses', 'courses.id', '=', 'assigments.course_id')
-            ->selectRaw('COUNT(homeworks.name) AS homeworks, courses.name AS courses, grades.name AS grades, assigments.id AS assigment_id')
-            ->where(function($query) use ($search) {
-                $query->where('homeworks.name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('grades.name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('courses.name', 'LIKE', '%' . $search . '%');
-            })
-            ->groupBy('grades.name', 'courses.name', 'assigments.id')
-            ->paginate(9);
-
+        if (auth()->user()->role == 'Admin') {
+            $homeworksGrades = Homeworks::join('assigments', 'assigments.id', '=', 'homeworks.assigment_id')
+                ->join('grades', 'grades.id', '=', 'assigments.grade_id')
+                ->join('courses', 'courses.id', '=', 'assigments.course_id')
+                ->selectRaw('COUNT(homeworks.name) AS homeworks, courses.name AS courses, grades.name AS grades, assigments.id AS assigment_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('homeworks.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('grades.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('courses.name', 'LIKE', '%' . $search . '%');
+                })
+                ->groupBy('grades.name', 'courses.name', 'assigments.id')
+                ->paginate(9);
+        } else {
+            $homeworksGrades = Homeworks::join('assigments', 'assigments.id', '=', 'homeworks.assigment_id')
+                ->join('grades', 'grades.id', '=', 'assigments.grade_id')
+                ->join('courses', 'courses.id', '=', 'assigments.course_id')
+                ->selectRaw('COUNT(homeworks.name) AS homeworks, courses.name AS courses, grades.name AS grades, assigments.id AS assigment_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('homeworks.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('grades.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('courses.name', 'LIKE', '%' . $search . '%');
+                })
+                ->whereHas('assigment', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->groupBy('grades.name', 'courses.name', 'assigments.id')
+                ->paginate(9);
+        }
 
 // $results ahora contendrá el resultado de la consulta.
         return view('homeworks.groupHomeworksGrades', compact('homeworksGrades', 'search'));
