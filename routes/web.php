@@ -39,31 +39,7 @@ Route::get('/', function () {
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/dashboard', [ DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('/users', UserController::class);
-    Route::resource('/students', StudentController::class);
-    Route::resource('/grades', GradeController::class);
-    Route::resource('/courses', CourseController::class);
-    Route::resource('/classes', ClassController::class);
-    Route::resource('/periods', PeriodController::class);
-    Route::resource('/assignments', TeachingAssignmentsController::class);
-    Route::resource('/class-students', ClassStudentController::class);
-    Route::post('/class-students/add-more-students', [ClassStudentController::class, 'addMoreStudents'])->name('class-students.addMoreStudents');
-
-    Route::resource('/homeworks', HomeworkController::class)->except(['create', 'edit', 'update']);
-    Route::get('/homeworks/{course}/course', [HomeworkController::class, 'showHomeworks'])->name('homeworks.show-homeworks');
-    Route::get('/homeworks/{course}/create', [HomeworkController::class, 'create'])->name('homeworks.create');
-    Route::patch('/homeworks/{homework}/{course}', [HomeworkController::class, 'update'])->name('homeworks.update');
-    Route::get('/homeworks/{homework}/{course}/edit', [HomeworkController::class, 'edit'])->name('homeworks.edit');
-    Route::get('/homework-grades', [HomeworkGradeController::class, 'groupHomeworksGrades'])->name('homeworks.groupHomeworksGrades');
-    Route::get('/homework-grades/{grade_id}', [HomeworkGradeController::class, 'viewHomeworks'])->name('homeworks.viewHomeworksGrades');
-
+Route::middleware(['auth', 'Teacher'])->group(function () {
     Route::resource('/attendance', AttendanceController::class)->except(['edit', 'update', 'show']);
     Route::get('/attendance/{grade}/grade', [AttendanceController::class, 'selectGrade'])->name('attendance.grade');
     Route::get('/attendance/{grade}/grade/{class}/register', [AttendanceController::class, 'register'])->name('attendance.register');
@@ -74,6 +50,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/{grade}/grade/{class}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
     Route::get('/attendance/{grade}/grade/{class}/select-date', [AttendanceController::class, 'selectDatetoEdit'])->name('attendance.selectDate');
 
+    Route::get('/export-score-grade/{grade}/{period}', [scoreReportsController::class, 'exportExcel'])->name('scoreReports.excel');
+    Route::get('/export-score-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportExcel'])->name('scoreReportsStudents.excel');
+    Route::get('/export-pdf-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportPDF'])->name('scoreReportsStudents.pdf');
+    Route::get('/export-score-course/{grade}/{course}/{period}', [ScoreReportCourseController::class, 'exportExcel'])->name('scoreReportsCourse.excel');
+    Route::get('/export-attendance/{class}/{start}/{end}', [AttendanceController::class, 'exportExcel'])->name('attendance.excel');
+
+    Route::get('/top-average/{grade}/{period}', [ scoreReportsController::class, 'topAverage'])->name('topAverage');
+    Route::get('/bottom-average/{grade}/{period}', [ scoreReportsController::class, 'bottomAverage'])->name('bottomAverage');
+
+    Route::resource('/homeworks', HomeworkController::class)->except(['create', 'edit', 'update']);
+    Route::get('/homeworks/{course}/course', [HomeworkController::class, 'showHomeworks'])->name('homeworks.show-homeworks');
+    Route::get('/homeworks/{course}/create', [HomeworkController::class, 'create'])->name('homeworks.create');
+    Route::patch('/homeworks/{homework}/{course}', [HomeworkController::class, 'update'])->name('homeworks.update');
+    Route::get('/homeworks/{homework}/{course}/edit', [HomeworkController::class, 'edit'])->name('homeworks.edit');
+    Route::get('/homework-grades', [HomeworkGradeController::class, 'groupHomeworksGrades'])->name('homeworks.groupHomeworksGrades');
+    Route::get('/homework-grades/{grade_id}', [HomeworkGradeController::class, 'viewHomeworks'])->name('homeworks.viewHomeworksGrades');
 
     Route::resource('/add-homeworks-score', addHomeworkScoreController::class)->except(['store', 'edit']);
     Route::get('/add-homeworks-score/{homework_id}/{assigment_id}', [addHomeworkScoreController::class, 'homeworkRegister'])->name('homework.register');
@@ -96,17 +88,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/score-reports-course/{grade}/grade/{course}/course', [ScoreReportCourseController::class, 'period'])->name('scoreReportsCourse.period');
     Route::get('/score-reports-course/{grade}/grade/{course}/course/{period}/period', [ScoreReportCourseController::class, 'scoreCourse'])->name('scoreReportsCourse.score-course');
 
-    Route::get('/export-score-grade/{grade}/{period}', [scoreReportsController::class, 'exportExcel'])->name('scoreReports.excel');
-    Route::get('/export-score-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportExcel'])->name('scoreReportsStudents.excel');
-    Route::get('/export-pdf-student/{grade}/{period}/{student}', [ScoreReportStudentController::class, 'exportPDF'])->name('scoreReportsStudents.pdf');
-    Route::get('/export-score-course/{grade}/{course}/{period}', [ScoreReportCourseController::class, 'exportExcel'])->name('scoreReportsCourse.excel');
-    Route::get('/export-attendance/{class}/{start}/{end}', [AttendanceController::class, 'exportExcel'])->name('attendance.excel');
+    Route::get('/dashboard', [ DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+Route::middleware(['auth', 'Admin'])->group(function () {
+
+    Route::resource('/users', UserController::class);
+    Route::resource('/students', StudentController::class);
+    Route::resource('/grades', GradeController::class);
+    Route::resource('/courses', CourseController::class);
+    Route::resource('/classes', ClassController::class);
+    Route::resource('/periods', PeriodController::class);
+    Route::resource('/assignments', TeachingAssignmentsController::class);
+    Route::resource('/class-students', ClassStudentController::class);
+    Route::post('/class-students/add-more-students', [ClassStudentController::class, 'addMoreStudents'])->name('class-students.addMoreStudents');
 
     Route::get('/chart-1/grades', [ Chart1Controller::class, 'chartGrades'])->name('chart1.index');
     Route::get('/chart-1/teacher', [ Chart1Controller::class, 'chartTeachers'])->name('chart1.index');
-    Route::get('/top-average/{grade}/{period}', [ scoreReportsController::class, 'topAverage'])->name('topAverage');
-    Route::get('/bottom-average/{grade}/{period}', [ scoreReportsController::class, 'bottomAverage'])->name('bottomAverage');
 });
 
 

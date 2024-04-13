@@ -77,7 +77,7 @@ class HomeworkController extends Controller
             'assigment_id' => $assigment->id
         ]);
 
-          return redirect()->back()->with('status', 'Se ha creado el registro correctamente!');
+        return redirect()->back()->with('status', 'Se ha creado el registro correctamente!');
     }
 
     /**
