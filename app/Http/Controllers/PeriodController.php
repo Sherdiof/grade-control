@@ -39,6 +39,7 @@ class PeriodController extends Controller
         Period::create([
             'name' => $request->name,
             'year' => $request->year,
+            'status' => 'ACTIVO'
         ]);
 
         return redirect()->route('periods.index')->with('status', 'Se ha creado el registro correctamente!');
@@ -66,11 +67,13 @@ class PeriodController extends Controller
     public function update(Request $request, Period $period)
     {
         $this->validate($request, [
-            'name' => ['required','min:2', 'max:50', new DoesntExistsPeriod($request->input('year'))],
+            'name' => ['required','min:2', 'max:50'],
             'year' => ['required', 'min:4', 'max:50'],
+            'status' => 'required'
         ]);
         $period->name = $request->name;
         $period->year = $request->year;
+        $period->status = $request->status;
 
         $period->update();
         return redirect()->route('periods.index')->with('status', 'Se ha actualizado el registro correctamente!');

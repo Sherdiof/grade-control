@@ -72,10 +72,10 @@
                                         <div class="relative">
                                             <label for="role" class="leading-7 text-sm text-gray-600">{{ __('Role') }}</label>
                                             <select id="role" name="role" class="py-3 px-4 pe-9 block w-full bg-gray-100 bg-opacity-50 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-                                                <option selected>Open this select menu</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Docente">Docente</option>
-                                            </select>                                        </div>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="p-2 w-full">

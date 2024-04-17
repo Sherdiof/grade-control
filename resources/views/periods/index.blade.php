@@ -28,6 +28,7 @@
                     <tr>
                         <th class="px-4 py-2">{{ __('Name period') }}</th>
                         <th class="px-4 py-2">{{ __('Year') }}</th>
+                        <th class="px-4 py-2">{{ __('Status') }}</th>
                         <th class="px-4 py-2">{{ __('Actions') }}</th>
                     </tr>
                     </thead>
@@ -37,6 +38,7 @@
                         <tr>
                             <td class="border px-4 py-2">{{ $period->name }}</td>
                             <td class="border px-4 py-2">{{ $period->year }}</td>
+                            <td class="border px-4 py-2">{{ $period->status }}</td>
                             <td class="border px-4 py-2">
                                 <div class="flex flex-row">
                                     <a href="{{ route('periods.edit', $period) }}">

@@ -61,7 +61,7 @@
 
 <div class="p-2 w-full">
     <div class="relative">
-        <label for="assigment_id" class="leading-7 text-sm text-gray-600">{{ __('Course') }}</label>
+        <label for="course_id" class="leading-7 text-sm text-gray-600">{{ __('Course') }}</label>
         <select id="course_id" name="course_id"
                 class="py-3 px-4 pe-9 block w-full bg-gray-100 bg-opacity-50 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
             @role('Admin')
@@ -87,6 +87,28 @@
             @endrole
         </select>
         @error('course_id')
+        <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
+<div class="p-2 w-full">
+    <div class="relative">
+        <label for="grade_id" class="leading-7 text-sm text-gray-600">{{ __('Course') }}</label>
+        <select id="grade_id" name="grade_id"
+                class="py-3 px-4 pe-9 block w-full bg-gray-100 bg-opacity-50 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+            @role('Docente')
+            @if($edit)
+                <option value="{{ $assigment->grade_id }}">{{ $assigment->grade->name }}</option>
+            @endif
+            @if(!$edit)
+                @foreach($assigment as $a)
+                    <option value="{{ $a->grade_id }}">{{ $a->grade->name }}</option>
+                @endforeach
+            @endif
+            @endrole
+        </select>
+        @error('grade_id')
         <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
         @enderror
     </div>

@@ -30,7 +30,7 @@
                         <div
                             class="p-3 text-gray-700 text-lg uppercase font-semibold">{{ __('section') }} {{ $class->name }}</div>
                         <div class="p-3 flex">
-                            <a href="{{ route('attendance.selectDatetoShow', $class->id) }}"
+                            <a href="{{ route('attendance.selectDatetoShow', ['grade' => $grade, 'class' => $class->id]) }}"
                                class="text-indigo-500 mr-2 hover:text-indigo-700 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-5 py-4 inline-flex space-x-1 items-center">
                                         <span>
                                             <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"

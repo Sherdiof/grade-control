@@ -19,7 +19,7 @@ class ClassStudentController extends Controller
         $classStudents = ClassStudent::join('classes', 'class_students.class_id', '=', 'classes.id')
             ->join('students', 'class_students.student_id', '=', 'students.id')
             ->join('grades', 'classes.grade_id', '=', 'grades.id')
-            ->select('class_students.class_id', DB::raw('CONCAT("SECCIÓN ", classes.name, " - ", grades.name) as class_grade'), DB::raw('COUNT(students.id) as qty'))
+            ->select('class_students.class_id', DB::raw('CONCAT(grades.name , " - ", "SECCIÓN ", classes.name ) as class_grade'), DB::raw('COUNT(students.id) as qty'))
             ->groupBy('class_students.class_id', 'class_grade')
             ->get();
         return view('class-students.index', compact('classStudents'));
@@ -59,7 +59,7 @@ class ClassStudentController extends Controller
     public function show(string $id)
     {
         $classStudents = ClassStudent::where('class_id', $id)->join('students', 'class_students.student_id', '=', 'students.id')
-            ->select('students.name as student', 'class_students.id')->get();
+            ->select('students.name as student', 'students.status as status', 'class_students.id')->get();
         $class = Classes::find($id);
         return view('class-students.show', compact('classStudents', 'class'));
     }

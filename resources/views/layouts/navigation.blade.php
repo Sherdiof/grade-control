@@ -28,7 +28,9 @@
 {{--                        <li class="mb-2"><a href="{{ route('scoreReportsStudents.index') }}" class="{{ request()->routeIs('scoreReportsStudents.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Students") }}</a></li>--}}
 {{--                        <li class="mb-2"><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">{{ __("Score Courses") }}</a></li>--}}
                         <li>
+                        @endhasanyrole
                             <details class="group">
+                                @hasanyrole('Admin|Docente')
                                 <summary class="flex items-center gap-2 font-medium marker:content-none hover:cursor-pointer">
                                     Score Reports
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -36,16 +38,23 @@
                                     </svg>
 
                                 </summary>
+                                @endhasanyrole
                                 <article class="px-4 pb-4">
                                     <ul class="flex flex-col mt-2 gap-1 pl-2">
+                                        @role('Admin')
                                         <li><a href="{{ route('scoreReports.index') }}" class="{{ request()->routeIs('scoreReports.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("General") }}</a></li>
                                         <li><a href="{{ route('scoreReportsStudents.index') }}" class="{{ request()->routeIs('scoreReportsStudents.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("Students") }}</a></li>
                                         <li><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("Zone boxes") }}</a></li>
+                                        @endrole
+                                        @role('Docente')
+                                        <li><a href="{{ route('scoreReportsCourse.index') }}" class="{{ request()->routeIs('scoreReportsCourse.*') ? 'block text-indigo-200 border-b hover:border-indigo-200 ': 'block hover:text-indigo-200 hover:border-b hover:border-indigo-200'}}">&#8226; {{ __("Zone boxes") }}</a></li>
+                                        @endrole
                                     </ul>
                                 </article>
+
                             </details>
                         </li>
-                        @endhasanyrole
+
 
                     </ul>
                 </div>

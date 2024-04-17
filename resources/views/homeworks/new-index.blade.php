@@ -21,7 +21,7 @@
                             <div class="flex justify-end ml-10">
                                 <a href="{{ route('homeworks.groupHomeworksGrades') }}"
                                    class="inline-flex items-center px-4 py-3 bg-gray-50 border border-solid rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                    {{ __('Grade homeworks') }}
+                                    {{ __('Score homeworks') }}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width={1.5} stroke="currentColor" class="w-6 h-6 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round"

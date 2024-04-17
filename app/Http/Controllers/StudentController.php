@@ -24,9 +24,8 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         $validate = $request->validated();
-
+        $validate['status'] = 'ACTIVO';
         Student::create($validate);
-
         return redirect()->route('students.index')->with('status', 'Se ha creado el registro correctamente!');
     }
 
@@ -44,7 +43,6 @@ class StudentController extends Controller
     {
         $validate = $request->validated();
         $student->update($validate);
-
         return redirect()->route('students.index')->with('status', 'Se ha actualizado el registro correctamente!');
     }
 

@@ -33,6 +33,7 @@ class scoreReportsController extends Controller
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) {
                 $coursesScores = [];
@@ -89,7 +90,7 @@ class scoreReportsController extends Controller
 
     public function period(string $grade)
     {
-        $periods = Period::all();
+        $periods = Period::all()->where('status', '=', 'ACTIVO');
         return view('score-reports.period', compact('grade', 'periods'));
     }
 
@@ -109,6 +110,7 @@ class scoreReportsController extends Controller
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) {
                 $coursesScores = [];
@@ -179,6 +181,7 @@ class scoreReportsController extends Controller
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) {
                 $coursesScores = [];
@@ -233,6 +236,7 @@ class scoreReportsController extends Controller
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) {
                 $coursesScores = [];

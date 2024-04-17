@@ -85,9 +85,9 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function selectDatetoShow(Classes $class)
+    public function selectDatetoShow(Grade $grade, Classes $class)
     {
-        return view('attendances.select-date-to-show', compact('class'));
+        return view('attendances.select-date-to-show', compact('class', 'grade'));
     }
 
     public function show(Classes $class, Request $request)

@@ -17,7 +17,8 @@ class Student extends Model
         'age',
         'phone',
         'gender',
-        'birthdate'
+        'birthdate',
+        'status'
     ];
 
     public function classtudent(): BelongsTo

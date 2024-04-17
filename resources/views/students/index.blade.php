@@ -30,9 +30,9 @@
                     <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Edad</th>
                         <th>Encargado</th>
                         <th>Telefono</th>
+                        <th>Status</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -40,9 +40,9 @@
                     @foreach($students as $student)
                     <tr>
                         <td>{{ $student->name }}</td>
-                        <td>{{ $student->age }}</td>
                         <td>{{ $student->tutor }}</td>
                         <td>{{ $student->phone }}</td>
+                        <td>{{ $student->status }}</td>
                         <td>
                             <div class="flex flex-row">
                                 <a href="{{ route('students.show', $student) }}">

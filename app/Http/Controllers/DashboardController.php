@@ -26,7 +26,11 @@ class DashboardController extends Controller
 
         // Docente
         $coursesTeacher = Assigment::where('user_id', auth()->user()->id)->count();
-        $gradesTeacher = Assigment::where('user_id', auth()->user()->id)->groupBy('grade_id')->count();
+        $gradesTeacher = Assigment::selectRaw('count(*) as count')
+            ->where('user_id', auth()->user()->id)
+            ->groupBy('grade_id')
+            ->get()
+            ->count();
         $homeworksTeacher = Homeworks::with('assigment')
             ->whereHas('assigment', function ($query) {
                 $query->where('user_id', auth()->user()->id);

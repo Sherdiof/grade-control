@@ -19,7 +19,11 @@
                                         <h3 class="text-lg leading-6 font-normal text-gray-900">{{ $classStudent->student }}</h3>
                                     </div>
                                     <div class="mt-4 flex items-center justify-between">
-                                        <p class="text-sm font-medium text-gray-500">Status: <span class="text-green-600">Active</span></p>
+                                        @if($classStudent->status == 'ACTIVO')
+                                            <p class="text-sm font-medium text-gray-500">Status: <span class="text-green-600">{{ $classStudent->status }}</span></p>
+                                        @else
+                                            <p class="text-sm font-medium text-gray-500">Status: <span class="text-red-600">{{ $classStudent->status }}</span></p>
+                                        @endif
                                     </div>
                                 </div>
                             </li>

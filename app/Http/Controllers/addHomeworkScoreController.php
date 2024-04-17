@@ -21,7 +21,7 @@ class addHomeworkScoreController extends Controller
             return $this->edit($homework, $assigment);
         } else {
             $homeworkStudents = Assigment::query()
-                ->select('s.name as estudiante', 'c.name as seccion', 'g.name as grado', 's.id as student_id')
+                ->select('s.name as estudiante', 'c.name as seccion', 'g.name as grado', 's.id as student_id', 's.status as status')
                 ->join('grades as g', 'assigments.grade_id', '=', 'g.id')
                 ->join('classes as c', 'c.grade_id', '=', 'g.id')
                 ->join('class_students as cs', 'c.id', '=', 'cs.class_id')
@@ -78,7 +78,7 @@ class addHomeworkScoreController extends Controller
      */
     public function edit(int $homework, int $assigment)
     {
-        $homeworkStudents = Assigment::select('students.name as estudiante', 'classes.name as seccion', 'grades.name as grado', 'student_homeworks.score', 'students.id as student_id')
+        $homeworkStudents = Assigment::select('students.name as estudiante', 'students.status as status', 'classes.name as seccion', 'grades.name as grado', 'student_homeworks.score', 'students.id as student_id')
             ->join('grades', 'assigments.grade_id', '=', 'grades.id')
             ->join('classes', 'grades.id', '=', 'classes.grade_id')
             ->join('class_students', 'classes.id', '=', 'class_students.class_id')

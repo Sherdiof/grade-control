@@ -41,6 +41,23 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="p-2 w-full">
+                                        <div class="relative">
+                                            <label for="status" class="leading-7 text-sm text-gray-600">{{ __('Status') }}</label>
+                                            <select id="status" name="status" class="py-3 px-4 pe-9 block w-full bg-gray-100 bg-opacity-50 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                                @if($period->status == 'ACTIVO')
+                                                    <option selected value="ACTIVO">ACTIVO</option>
+                                                    <option value="INACTIVO">INACTIVO</option>
+                                                @else
+                                                    <option  value="ACTIVO">ACTIVO</option>
+                                                    <option selected value="INACTIVO">INACTIVO</option>
+                                                @endif
+                                            </select>
+                                            @error('period_id')
+                                                <p class="text-red-800 my-1 rounded-lg text-sm px-3">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
 
                                     <div class="p-2 w-full mt-10">
                                         <button type="submit" class="flex mx-auto text-white bg-indigo-500 border-0 py-1 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Send  </button>

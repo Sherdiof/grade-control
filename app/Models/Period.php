@@ -13,6 +13,7 @@ class Period extends Model
     protected $fillable = [
         'name',
         'year',
+        'status'
     ];
 
     public function homeworks(): HasMany

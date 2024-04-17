@@ -53,9 +53,15 @@
 
                                     @foreach($homeworkStudents as $homeworkStudent)
                                         <tr class="bg-white border-b hover:bg-gray-50">
-                                            <td class="px-6 py-4 font-semibold text-gray-900">
-                                                {{$homeworkStudent->estudiante}} - {{ __('SECTION') }} {{ $homeworkStudent->seccion }}
-                                            </td>
+                                            @if($homeworkStudent->status == 'ACTIVO')
+                                                <td class="px-6 py-4 font-semibold text-gray-900">
+                                                    {{$homeworkStudent->estudiante}} - {{ __('SECTION') }} {{ $homeworkStudent->seccion }}
+                                                </td>
+                                            @else
+                                                <td class="px-6 py-4 font-semibold text-red-600">
+                                                    {{$homeworkStudent->estudiante}} - {{ __('SECTION') }} {{ $homeworkStudent->seccion }}
+                                                </td>
+                                            @endif
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center">
                                                     <div>

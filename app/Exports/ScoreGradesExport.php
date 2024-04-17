@@ -32,6 +32,7 @@ class ScoreGradesExport implements FromView, ShouldAutoSize
             ->whereHas('studentHomework.homework.assigment', function ($query) {
                 $query->where('grade_id', $this->grade->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) {
                 $coursesScores = [];

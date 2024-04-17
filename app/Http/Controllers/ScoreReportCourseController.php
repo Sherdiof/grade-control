@@ -27,7 +27,7 @@ class ScoreReportCourseController extends Controller
 
     public function period(Grade $grade, Course $course)
     {
-        $periods = Period::all();
+        $periods = Period::all()->where('status', '=', 'ACTIVO');
         return view('score-reports-courses.period', compact('grade', 'course', 'periods'));
     }
 
@@ -44,6 +44,7 @@ class ScoreReportCourseController extends Controller
                 $query->where('grade_id', $grade->id)
                     ->where('course_id', $course->id);
             })
+            ->where('status', '=', 'ACTIVO')
             ->get()
             ->map(function ($student) use ($course, $grade) {
                 $homeworksScores = [];

@@ -33,7 +33,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'min:2', 'max:50'],
+            'name' => ['required', 'min:2', 'max:255'],
         ]);
 
         Course::create([

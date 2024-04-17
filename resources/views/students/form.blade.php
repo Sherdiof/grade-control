@@ -49,3 +49,20 @@
     <x-text-input id="phone" name="phone" type="text" value="{{ $editing ? old('phone', $student->phone) : old('phone') }}" class="mt-1 block w-full" />
     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
 </div>
+@if($editing)
+    <div class="mb-4">
+        <x-input-label for="status" :value="__('Status:')" />
+        <select name="status" id="status" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
+
+            @if($student->status == 'ACTIVO')
+                <option selected value="ACTIVO">ACTIVO</option>
+                <option value="INACTIVO">INACTIVO</option>
+            @else
+                <option  value="ACTIVO">ACTIVO</option>
+                <option selected value="INACTIVO">INACTIVO</option>
+            @endif
+
+        </select>
+        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+    </div>
+@endif

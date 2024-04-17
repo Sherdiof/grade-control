@@ -27,7 +27,8 @@ class StoreStudentRequest extends FormRequest
             'age' => 'required|integer|digits_between:1,2',
             'phone' => 'required',
             'gender' => '',
-            'birthdate' => 'required|date'
+            'birthdate' => 'required|date',
+            'status' => ''
         ];
     }
 }

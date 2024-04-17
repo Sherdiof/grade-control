@@ -46,12 +46,17 @@ class HomeworkController extends Controller
      */
     public function create(Course $course)
     {
-        $periods = Period::all();
+
+        $periods = Period::all()->where('status', '=', 'ACTIVO');
         if (auth()->user()->role == 'Admin') {
             $course = Assigment::all();
         }
-
-        return view('homeworks.create', compact('periods', 'course'));
+        $assigment = Assigment::with('grade')
+            ->where('course_id', $course->id)
+            ->where('user_id', auth()->user()->id)
+            ->get();
+//        return response()->json($assigment);
+        return view('homeworks.create', compact('periods', 'course', 'assigment'));
     }
 
     /**
@@ -62,12 +67,13 @@ class HomeworkController extends Controller
         $this->validate($request, [
             'name' => ['required', 'min:2', 'max:100'],
             'description' => 'max:100',
-            'value' => 'required', 'min:2', 'max:255',
-            'period_id' => ['required'],
-            'course_id' => ['required']
+            'value' => ['required', 'min:2', 'max:255'],
+            'period_id' => 'required',
+            'course_id' => 'required',
+            'grade_id' => 'required'
         ]);
 
-        $assigment = Assigment::where('course_id', $request->course_id)->where('user_id', auth()->user()->id)->first();
+        $assigment = Assigment::where('course_id', $request->course_id)->where('user_id', auth()->user()->id)->where('grade_id', $request->grade_id)->first();
 
         Homeworks::create([
             'name' => $request->name,
@@ -95,18 +101,10 @@ class HomeworkController extends Controller
      */
     public function edit(Homeworks $homework, Course $course)
     {
+        $periods = Period::all()->where('status', '=', 'ACTIVO');
+        $assigment = Assigment::find($homework->assigment_id);
 
-        $periods = Period::all();
-        if (auth()->user()->role == 'Admin') {
-            $course = Course::join('assigments', 'assigments.course_id', '=', 'courses.id')
-                ->groupBy('assigments.id', 'courses.name')
-                ->select('assigments.id', 'courses.name')
-                ->get();
-        } else {
-
-        }
-
-        return view('homeworks.edit', compact('homework', 'periods', 'course'));
+        return view('homeworks.edit', compact('homework', 'periods', 'course', 'assigment'));
     }
 
     /**
@@ -119,13 +117,13 @@ class HomeworkController extends Controller
             'description' => 'max:300',
             'value' => 'required', 'min:2', 'max:100',
             'period_id' => ['required'],
-            'course_id' => ['required']
+            'course_id' => ['required'],
         ]);
+
         $homework->name = $request->name;
         $homework->description = $request->description;
         $homework->value = $request->value;
         $homework->period_id = $request->period_id;
-        $homework->assigment_id = $request->course_id;
 
         $homework->update();
         return redirect()->route('homeworks.show-homeworks', $course)->with('status', 'Se ha actualizado el registro correctamente!');
