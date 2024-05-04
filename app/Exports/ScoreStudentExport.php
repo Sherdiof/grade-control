@@ -19,7 +19,7 @@ class ScoreStudentExport implements FromView, ShouldAutoSize
     protected $grade;
     protected $id;
 
-    public function __construct(Grade $grade, Period $period, int $id)
+    public function __construct(Grade $grade, string $period, int $id)
     {
         $this->period = $period;
         $this->grade = $grade;

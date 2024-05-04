@@ -27,15 +27,15 @@ class scoreReportsController extends Controller
     public function scoreGrade(Grade $grade, Period $period)
     {
         $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
-            ->whereHas('studentHomework.homework', function ($query) use ($period) {
+/*            ->whereHas('studentHomework.homework', function ($query) use ($period) {
                 $query->where('period_id', $period->id);
-            })
+            })*/
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
             ->where('status', '=', 'ACTIVO')
             ->get()
-            ->map(function ($student) {
+            ->map(function ($student) use ($period) {
                 $coursesScores = [];
                 $totalCourses = 0;
                 $totalScore = 0;
@@ -44,8 +44,9 @@ class scoreReportsController extends Controller
                     $score = $studentHomework->score;
                     $courseName = $studentHomework->homework->assigment->course->name;
 
-                    // Agregas la condición aquí
-//                    if ($studentHomework->homework->period_id === 3) {
+                    // Agregas la condición aquí TODO: tener muy encuenta que con este if si toma en cuenta realmente lo que necesito ver a diferencia si hago la validacion
+                    // TODO: con whereHas
+                    if ($studentHomework->homework->period_id === $period->id) {
                         if (!isset($coursesScores[$courseName])) {
                             $coursesScores[$courseName] = 0;
                             $totalCourses++;
@@ -54,7 +55,7 @@ class scoreReportsController extends Controller
                         $coursesScores[$courseName] += $score;
                         $totalScore += $score;
 
-//                    }
+                    }
                 }
 
                 foreach ($coursesScores as $coursesScore){
@@ -83,8 +84,7 @@ class scoreReportsController extends Controller
         }
 
         $courses = array_unique($courses);
-        //return response()->json($students);
-
+//        return response()->json($students);
         return view('score-reports.score-grade', compact('students', 'courses', 'grade', 'period'));
     }
 

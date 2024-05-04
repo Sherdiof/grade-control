@@ -4,10 +4,9 @@
             {{ __('Score Student') }}
         </h2>
     </x-slot>
-
     <div class="flex justify-center">
         <div class="w-full flex justify-center mx-4 rounded shadow mt-7 max-w-xl">
-            <a href="{{ route('scoreReportsStudents.select-student', [$grade, $period]) }}" aria-current="false"
+            <a href="{{ route('scoreReportsStudents.select-student', [$grade, 'period' => $period]) }}" aria-current="false"
                class="w-full flex justify-center font-medium rounded-l px-5 py-2 border bg-white text-gray-800 border-gray-200 hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -53,7 +52,7 @@
                 <div class="bg-white p-8 rounded-md w-full">
                     <div class=" flex items-center justify-center pb-6">
                         <div>
-                            <h2 class="text-center mt-5 text-gray-600 text-4xl font-semibold">Calificaciones de la {{ $period->name }}</h2>
+                            <h2 class="text-center mt-5 text-gray-600 text-4xl font-semibold">Calificaciones de @if($period == 'promedio-general') Promedio General @else {{ $periodInfo->name }} @endif</h2>
 
                         </div>
                     </div>

@@ -11,6 +11,7 @@ use App\Models\Student;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use function PHPUnit\Framework\isEmpty;
 
 class ScoreReportStudentController extends Controller
 {
@@ -29,7 +30,7 @@ class ScoreReportStudentController extends Controller
         return view('score-reports-students.period', compact('grade', 'periods'));
     }
 
-    public function selectStudent(Grade $grade, Period $period)
+    public function selectStudent(Grade $grade, string $period)
     {
         $students = Student::with(['classtudent.class'])
             ->whereHas('classtudent.class', function ($query) use ($grade) {
@@ -48,39 +49,75 @@ class ScoreReportStudentController extends Controller
         return view('score-reports-students.student', compact('grade', 'students', 'period'));
     }
 
-    public function scoreStudent(Grade $grade, Period $period, int $id)
+    public function scoreStudent(Grade $grade, string $period, int $id)
     {
+//        $periodID = '';
+        if ($period == 'promedio-general') {
+//            return $this->anualAverage($grade, $period, $id);
+            $periodInfo = '';
+        } else {
+            $periodInfo = Period::find($period);
+            $periodID = $periodInfo['id'];
+        }
+//        dd($periodInfo);
         $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
             ->where('id', $id)
-            ->whereHas('studentHomework.homework', function ($query) use ($period) {
-                $query->where('period_id', $period->id);
-            })
+//            ->whereHas('studentHomework.homework', function ($query) use ($period) {
+//                if ($period != 'promedio-general'){
+//                    $query->where('period_id', $period);
+//                }
+//            })
             ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
                 $query->where('grade_id', $grade->id);
             })
             ->where('status', '=', 'ACTIVO')
             ->get()
-            ->map(function ($student) {
+            ->map(function ($student) use ($periodInfo, $period) {
+                if (isset($periodInfo)) {
+                    $periodID = $periodInfo['id'];
+                }
                 $coursesScores = [];
                 $totalCourses = 0;
+                $average = 0;
                 $totalScore = 0;
+                $totalCoursesScore = 0;
+                $qtyPeriods = Period::where('status', '=', 'ACTIVO')->count();
                 foreach ($student->studentHomework as $studentHomework) {
                     $score = $studentHomework->score;
                     $courseName = $studentHomework->homework->assigment->course->name;
 
-                    // Agregas la condición aquí
-//                    if ($studentHomework->homework->period_id === 3) {
-                    if (!isset($coursesScores[$courseName])) {
-                        $coursesScores[$courseName] = 0;
-                        $totalCourses++;
-                    }
 
-                    $coursesScores[$courseName] += $score;
-                    $totalScore += $score;
+                    // Agregas la condición aquí
+//                    if (isset($periodID)){
+                        if ($studentHomework->homework->period_id ==  $periodID) {
+                            if (!isset($coursesScores[$courseName])) {
+                                $coursesScores[$courseName] = 0;
+                                $totalCourses++;
+                            }
+
+                            $coursesScores[$courseName] += $score;
+                            $totalScore += $score;
+
+                            $average = $totalCourses > 0 ? $totalScore / $totalCourses : 0;
+                        } else {
+
+                        }
 //                    }
+                    if ($period == 'promedio-general') {
+                        if (!isset($coursesScores[$courseName])) {
+                            $coursesScores[$courseName] = 0;
+                            $totalCourses++;
+                        }
+
+                        $coursesScores[$courseName] += $score;
+                        $totalScore += $score;
+
+                        $coursesScores[$courseName] = $totalScore / $qtyPeriods;
+                        $totalCoursesScore = array_sum($coursesScores);
+                        $average = $totalCourses > 0 ? $totalCoursesScore / $totalCourses : 0;
+                    }
                 }
 
-                $average = $totalCourses > 0 ? $totalScore / $totalCourses : 0;
 
                 return [
                     'course' => $studentHomework->homework->assigment->course->name,
@@ -103,12 +140,52 @@ class ScoreReportStudentController extends Controller
         $informationStudent = Student::find($id);
 
 //        return response()->json($students);
-        return view('score-reports-students.score-student', compact('students', 'courses', 'grade', 'period', 'informationStudent'));
+        return view('score-reports-students.score-student', compact('students', 'courses', 'grade', 'period', 'periodInfo', 'informationStudent'));
     }
 
-    public function exportExcel(Grade $grade, Period $period, int $id)
+    public function anualAverage(Grade $grade, string $period, int $id) {
+
+        $students = Student::with(['studentHomework.homework.assigment.course', 'studentHomework.homework.period', 'classtudent.class'])
+            ->where('id', $id)
+            ->whereHas('studentHomework.homework', function ($query) use ($period) {
+                if ($period != 'promedio-general'){
+                    $query->where('period_id', $period);
+                }
+            })
+            ->whereHas('studentHomework.homework.assigment', function ($query) use ($grade) {
+                $query->where('grade_id', $grade->id);
+            })
+            ->where('status', '=', 'ACTIVO')
+            ->get()
+            ->map(function ($student){
+                $courseData = [];
+                foreach ($student->studentHomework as $studentHomework) {
+                    $courseName = $studentHomework->homework->assigment->course->name;
+                    $score = $studentHomework->score;
+                    $periodNumber = $studentHomework->homework->period->name;
+
+                    // Agregar el score al curso y período correspondientes
+                    $courseData[$courseName][$periodNumber] = $score;
+                    $courseData[$courseName]["promediocurso"] = 0; // Inicializar promedio
+
+                    // Calcular el promedio del curso
+                    $totalScores = array_sum($courseData[$courseName]);
+                    $numPeriods = count($courseData[$courseName]) - 1; // Excluir el promedio
+                    if ($numPeriods > 0) {
+                        $courseData[$courseName]["promediocurso"] = $totalScores / $numPeriods;
+                    }
+                }
+
+                return $courseData;
+            });
+
+        return response()->json($students);
+    }
+
+    public function exportExcel(Grade $grade, string $period, int $id)
     {
         $student = Student::find($id);
+
         $export = new ScoreStudentExport($grade, $period, $id);
 
         return Excel::download($export, strtoupper($student->name) . '-' . $grade->name . '-' . $period->name . '-' . $period->year .'.xlsx');
