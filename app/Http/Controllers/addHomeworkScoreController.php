@@ -47,9 +47,11 @@ class addHomeworkScoreController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
-            'score' => ['required', 'max:10'],
+            'score' => ''
         ]);
+
         $score = $request->score;
         $student = $request->student_id;
         $c = count($request->score);
@@ -99,7 +101,7 @@ class addHomeworkScoreController extends Controller
     public function update(Request $request, int $homework, int $assigment)
     {
         $this->validate($request, [
-            'score' => ['required', 'max:10'],
+            'score' => ''
         ]);
 
         $students = $request->student_id;

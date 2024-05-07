@@ -90,7 +90,7 @@ class AttendanceController extends Controller
         return view('attendances.select-date-to-show', compact('class', 'grade'));
     }
 
-    public function show(Classes $class, Request $request)
+    public function show(Grade $grade, Classes $class, Request $request)
     {
         $request->validate([
             'start' => 'required',
@@ -144,7 +144,7 @@ class AttendanceController extends Controller
         $dates = array_unique($dates);
 
 //        return response()->json($dates);
-        return view('attendances.show', compact('students','dates','class', 'start', 'end'));
+        return view('attendances.show', compact('students','dates','class', 'start', 'end', 'grade'));
     }
 
     /**

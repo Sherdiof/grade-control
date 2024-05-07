@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 mx-72">
                     <h2 class="text-2xl font-semibold uppercase mb-6 mx-auto text-center">{{ __('SECTION') }} {{ $class->name }} {{ $class->grade->name }}</h2>
                     <h2 class="text-xl font-semibold mb-6 mx-auto text-center">{{ __('Select a date to show the attendance') }}</h2>
-                    <form action="{{ route('attendance.show', $class) }}" method="GET">
+                    <form action="{{ route('attendance.show',['class' => $class, 'grade' => $grade]) }}" method="GET">
                         @csrf
 
                         <div date-rangepicker class="flex items-center justify-center">

@@ -45,7 +45,7 @@ Route::middleware(['auth', 'Teacher'])->group(function () {
     Route::get('/attendance/{grade}/grade/{class}/register', [AttendanceController::class, 'register'])->name('attendance.register');
     Route::post('/attendance/{grade}/grade/{class}/register', [AttendanceController::class, 'addRegister'])->name('attendance.addRegister');
     Route::get('/attendance/{grade}/grade/{class}/select-date-to-show', [AttendanceController::class, 'selectDatetoShow'])->name('attendance.selectDatetoShow');
-    Route::get('/attendance/{class}/show', [AttendanceController::class, 'show'])->name('attendance.show');
+    Route::get('/attendance/{grade}/grade/{class}/show', [AttendanceController::class, 'show'])->name('attendance.show');
     Route::patch('/attendance/{grade}/grade/{class}', [AttendanceController::class, 'update'])->name('attendance.update');
     Route::get('/attendance/{grade}/grade/{class}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
     Route::get('/attendance/{grade}/grade/{class}/select-date', [AttendanceController::class, 'selectDatetoEdit'])->name('attendance.selectDate');
